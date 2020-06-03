@@ -1,0 +1,34 @@
+#' Assessment data
+#'
+#' @source
+#'
+#'
+#' @format Data is given as a list with the following components:
+#' \describe{
+#'  \item{log_concentration_ss_data}{}
+#'  \item{log_consumption_ss_data}{}
+#'  \item{consumers_info_sample_size}{A list of length 7. For each chocolate product: sugar panned chocolate,
+#'  milk chocolate, chocolate icing, chocolate with fillings, dark chocolate, cocoa powder, beverage powder,
+#'  it has the following:
+#'  \describe{
+#'       \item{non_consumer_sample_size}{Sample size of non consumers}
+#'       \item{consumer_sample_size}{Sample size of consumers}
+#'  }
+#'  }
+#'
+#'  \item{change_cons}{A dataframe concerning EKE. It has 4 columns:
+#'    \describe{
+#'       \item{probs}{Probabilities}
+#'       \item{vals}{Elicited values from experts}
+#'       \item{vals_lower}{Lower bound of elicited values from experts}
+#'       \item{vals_upper}{Upper bound of elicited values from experts}
+#'    }
+#'                    }
+#'}
+#'
+#' @examples
+#' \dontrun{
+#' data_assessment
+#'
+#' }
+"data_assessment"

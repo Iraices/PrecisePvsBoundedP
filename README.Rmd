@@ -1,0 +1,224 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# ppvsbp
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The aim of `ppvsbp` package is to make available the code used in the paper
+" A comparison between precise and bounded probability to quantify epistemic uncertainty
+ in a scientific assessment"
+...
+
+## Installation
+
+You can install the development version of `ppvsbp` from [github](https://github.com/Iraices/PrecisePvsBoundedP) with:
+
+```{r}
+# remotes::install_github('Iraices/PrecisePvsBoundedP')
+```
+
+## Example
+This examples does the aluminium exposure assessment by precise probability.
+
+First, let us estimate the probability of exceeding the safety threshold for all chidren
+
+```{r}
+library(ppvsbp)
+## basic example code
+TWI_pp <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
+                                  percentile_ale = NULL,
+                                  suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                                  suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                                  consumption_change_vals_EKE = data_assessment$change_cons$vals,
+                                  consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
+                                  consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                                  concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
+                                  concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
+                                  consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
+                                  consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
+                                  consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+## Outputs
+str(TWI_pp)
+
+## Expected probability of exceeding the safety threshold
+TWI_pp$expected_prob_exceed
+
+## Highest posterior density interval of the probability of exceeding the safety threshold
+TWI_pp$hdi_prob_exceed
+
+```
+
+Second, let us estimate the probability of exceeding the safety threshold for a high consumer child. Note, the argument
+`percentile_ale` has changed `percentile_ale = 95`.
+
+```{r}
+  TWI_pp_high_consumer <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
+                                   percentile_ale = 95,
+                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                                   consumption_change_vals_EKE = data_assessment$change_cons$vals,
+                                   consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
+                                   consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                                   concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
+                                   concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
+                                   consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
+                                   consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
+                                   consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+
+## Outputs
+str(TWI_pp_high_consumer)
+
+## Expected probability of exceeding the safety threshold
+TWI_pp_high_consumer$expected_prob_exceed
+
+## Highest posterior density interval of the probability of exceeding the safety threshold
+TWI_pp_high_consumer$hdi_prob_exceed
+```
+
+We can now visualize the results. Epistemic uncertainty has been characterized by a full probability distribution
+
+```{r}
+ ## All children
+  graph_pp(prob_exceed = TWI_pp$prob_exceed)
+    
+ ## A high consumer child
+  graph_pp(prob_exceed = TWI_pp_high_consumer$prob_exceed)
+    
+ ## both graphs
+   # graph_pp_both(prob_exceed_all = TWI_pp$prob_exceed, 
+   #                prob_exceed_high_consumer = TWI_pp_high_consumer$prob_exceed)
+```
+
+Now, let us estimate the probability of exceeding the safety threshold by bounded probability. 
+
+First, let us consider all children
+
+```{r}
+  ## All children
+  lower_bound_prob = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
+                                            lower_parameters  = c(1, -5, -20), 
+                                            upper_parameters  = c(6, 1, -10),
+                                            niter_ale = 1000, niter_epi = 1000, threshold = 1, percentile_ale = NULL,
+                                            suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                                            suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                                            consumption_change_vals_EKE = c(-15, 7.5), 
+                                            consumption_change_probs_EKE = c(0.25, 0.75),
+                                            consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                                            concentration_mu0 = 2.75,
+                                            concentration_v0 = 5, concentration_alpha0 = 1, concentration_beta0 = 1, 
+                                            sufficient_statistics_concentration = TRUE,
+                                            consumption_mu0 = -2.5,
+                                            consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
+                                            sufficient_statistics_consumption = TRUE,
+                                            consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+  
+
+  
+  ## All children
+  upper_bound_prob = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
+                                           lower_parameters  = c(1, -5, -20), 
+                                           upper_parameters  = c(6, 1, -10),
+                                           niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                           percentile_ale = NULL,
+                                           suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                                           suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                                           consumption_change_vals_EKE = c(-15, 7.5), 
+                                           consumption_change_probs_EKE = c(0.25, 0.75),
+                                           consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                                           concentration_mu0 = 2.75,
+                                           concentration_v0 = 5, concentration_alpha0 = 1, concentration_beta0 = 1, 
+                                           sufficient_statistics_concentration = TRUE,
+                                           consumption_mu0 = -2.5,
+                                           consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
+                                           sufficient_statistics_consumption = TRUE,
+                                           consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+  
+```
+
+Now, let us consider a high consumer child
+
+```{r}
+  ## A high consumer child
+  lower_bound_high_consumer = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
+                                                   lower_parameters  = c(1, -5, -20), 
+                                                   upper_parameters  = c(6, 1, -10),
+                                                   niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                                   percentile_ale = 95,
+                                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                                                   consumption_change_vals_EKE = c(-15, 7.5), 
+                                                   consumption_change_probs_EKE = c(0.25, 0.75),
+                                                   consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                                                   concentration_mu0 = 2.75,
+                                                   concentration_v0 = 5, concentration_alpha0 = 1, 
+                                                   concentration_beta0 = 1, 
+                                                   sufficient_statistics_concentration = TRUE,
+                                                   consumption_mu0 = -2.5,
+                                                   consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
+                                                   sufficient_statistics_consumption = TRUE,
+                                                   consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+  
+  
+  
+   ## A high consumer child
+  upper_bound_high_consumer = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
+                                                    lower_parameters  = c(1, -5, -20), 
+                                                    upper_parameters  = c(6, 1, -10),
+                                                    niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                                    percentile_ale = 95,
+                                                    suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                                                    suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                                                    consumption_change_vals_EKE = c(-15, 7.5), 
+                                                    consumption_change_probs_EKE = c(0.25, 0.75),
+                                                    consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                                                    concentration_mu0 = 2.75,
+                                                    concentration_v0 = 5, concentration_alpha0 = 1, 
+                                                    concentration_beta0 = 1, 
+                                                    sufficient_statistics_concentration = TRUE,
+                                                    consumption_mu0 = -2.5,
+                                                    consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
+                                                    sufficient_statistics_consumption = TRUE,
+                                                    consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+  
+
+```
+
+We can visualize the results individualy or together. In this case, epistemic uncertainty has been characterized by a p-box.
+
+Individual figures
+
+```{r}
+ ## All children
+ graph_bp(lower_points = lower_bound_prob$opt_prob$prob_exceed, upper_points = upper_bound_prob$opt_prob$prob_exceed)
+    
+ ## A high consumer child
+ graph_bp(lower_points = lower_bound_high_consumer$opt_prob$prob_exceed, 
+          upper_points = upper_bound_high_consumer$opt_prob$prob_exceed)
+```
+
+Both figures together
+
+```{r}  
+ ## Both graphs
+  graph_bp_both(lower_points_all = lower_bound_prob$opt_prob$prob_exceed, 
+                upper_points_all = upper_bound_prob$opt_prob$prob_exceed,
+                lower_points_high_consumer = lower_bound_high_consumer$opt_prob$prob_exceed, 
+                upper_points_high_consumer = upper_bound_high_consumer$opt_prob$prob_exceed)
+```
+
+End
+
