@@ -109,7 +109,7 @@ First, let us consider all children
 
 ```{r}
   ## All children
-  lower_bound_prob = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
+  lower_bound_prob <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
                                             lower_parameters  = c(1, -5, -20), 
                                             upper_parameters  = c(6, 1, -10),
                                             niter_ale = 1000, niter_epi = 1000, threshold = 1, percentile_ale = NULL,
@@ -129,7 +129,7 @@ First, let us consider all children
 
   
   ## All children
-  upper_bound_prob = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
+  upper_bound_prob <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
                                            lower_parameters  = c(1, -5, -20), 
                                            upper_parameters  = c(6, 1, -10),
                                            niter_ale = 1000, niter_epi = 1000, threshold = 1, 
@@ -153,7 +153,7 @@ Now, let us consider a high consumer child
 
 ```{r}
   ## A high consumer child
-  lower_bound_high_consumer = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
+  lower_bound_high_consumer <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
                                                    lower_parameters  = c(1, -5, -20), 
                                                    upper_parameters  = c(6, 1, -10),
                                                    niter_ale = 1000, niter_epi = 1000, threshold = 1, 
@@ -175,7 +175,7 @@ Now, let us consider a high consumer child
   
   
    ## A high consumer child
-  upper_bound_high_consumer = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
+  upper_bound_high_consumer <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
                                                     lower_parameters  = c(1, -5, -20), 
                                                     upper_parameters  = c(6, 1, -10),
                                                     niter_ale = 1000, niter_epi = 1000, threshold = 1, 

@@ -4,7 +4,8 @@
 \name{data_assessment}
 \alias{data_assessment}
 \title{Assessment data}
-\format{Data is given as a list with the following components:
+\format{
+Data is given as a list with the following components:
 \describe{
  \item{log_concentration_ss_data}{}
  \item{log_consumption_ss_data}{}
@@ -25,7 +26,8 @@
       \item{vals_upper}{Upper bound of elicited values from experts}
    }
                    }
-}}
+}
+}
 \source{
 
 }

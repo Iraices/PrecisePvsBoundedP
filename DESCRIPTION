@@ -35,3 +35,4 @@ Imports:
     dfoptim,
     stats,
     rlang
+RoxygenNote: 7.1.0
