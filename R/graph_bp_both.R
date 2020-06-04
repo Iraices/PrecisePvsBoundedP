@@ -52,7 +52,7 @@ graph_bp_both <- function(lower_points_all, upper_points_all,
 
 
   # data long format
-  data_plot <- gather(data_plot, .data$bound, .data$values, .data$l_points_all, .data$u_points_all,
+  data_plot <- gather(data_plot, "bound", "values", .data$l_points_all, .data$u_points_all,
                       l_points_high_consumer, u_points_high_consumer, factor_key = TRUE)
 
   p <- data_plot %>%

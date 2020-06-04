@@ -39,7 +39,7 @@ graph_bp <- function(lower_points, upper_points){
 
 
   # data long format
-  data_plot <- gather(data_plot, .data$bound, .data$values, .data$l_points, .data$u_points, factor_key = TRUE)
+  data_plot <- gather(data_plot,"bound", "values", .data$l_points, .data$u_points, factor_key = TRUE)
 
 
   p <- data_plot %>%

@@ -32,7 +32,7 @@ You can install the development version of `ppvsbp` from [github](https://github
 ```
 
 ## Example
-This examples does the aluminium exposure assessment by precise probability.
+This example does the aluminium exposure assessment by precise probability.
 
 First, let us estimate the probability of exceeding the safety threshold for all chidren
 
@@ -91,7 +91,7 @@ TWI_pp_high_consumer$hdi_prob_exceed
 
 We can now visualize the results. Epistemic uncertainty has been characterized by a full probability distribution
 
-```{r}
+```{r fig1, out.width = '70%'}
  ## All children
   graph_pp(prob_exceed = TWI_pp$prob_exceed)
     
@@ -99,8 +99,8 @@ We can now visualize the results. Epistemic uncertainty has been characterized b
   graph_pp(prob_exceed = TWI_pp_high_consumer$prob_exceed)
     
  ## both graphs
-   # graph_pp_both(prob_exceed_all = TWI_pp$prob_exceed, 
-   #                prob_exceed_high_consumer = TWI_pp_high_consumer$prob_exceed)
+    graph_pp_both(prob_exceed_all = TWI_pp$prob_exceed, 
+                   prob_exceed_high_consumer = TWI_pp_high_consumer$prob_exceed)
 ```
 
 Now, let us estimate the probability of exceeding the safety threshold by bounded probability. 
@@ -201,9 +201,10 @@ We can visualize the results individualy or together. In this case, epistemic un
 
 Individual figures
 
-```{r}
+```{r fig2, out.width = '70%'}
  ## All children
- graph_bp(lower_points = lower_bound_prob$opt_prob$prob_exceed, upper_points = upper_bound_prob$opt_prob$prob_exceed)
+ graph_bp(lower_points = lower_bound_prob$opt_prob$prob_exceed, 
+          upper_points = upper_bound_prob$opt_prob$prob_exceed)
     
  ## A high consumer child
  graph_bp(lower_points = lower_bound_high_consumer$opt_prob$prob_exceed, 
@@ -212,7 +213,7 @@ Individual figures
 
 Both figures together
 
-```{r}  
+```{r fig3, out.width = '70%'}  
  ## Both graphs
   graph_bp_both(lower_points_all = lower_bound_prob$opt_prob$prob_exceed, 
                 upper_points_all = upper_bound_prob$opt_prob$prob_exceed,
@@ -221,4 +222,6 @@ Both figures together
 ```
 
 End
+
+
 

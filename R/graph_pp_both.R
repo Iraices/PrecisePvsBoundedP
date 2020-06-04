@@ -19,14 +19,15 @@
 graph_pp_both <- function(prob_exceed_all, prob_exceed_high_consumer){
 
   # data wide format
-  data_plot <- data.frame(prob_exceed_all = sort(prob_exceed_all),
+  data_plot_wide <- data.frame(prob_exceed_all = sort(prob_exceed_all),
                           prob_exceed_high_consumer = sort(prob_exceed_high_consumer),
                           prob_cdf = c(1:length(prob_exceed_all)/length(prob_exceed_all)))
 
   # data long format
-  data_plot <- gather(data_plot, .data$group, .data$values, prob_exceed_all, prob_exceed_high_consumer, factor_key = TRUE)
+  data_plot_long <- gather(data_plot_wide, "group", "values", .data$prob_exceed_all,
+                      .data$prob_exceed_high_consumer, factor_key = TRUE)
 
-  p <- data_plot %>%
+  p <- data_plot_long %>%
     ggplot(aes(x = .data$values, y = .data$prob_cdf, group = .data$group, linetype = .data$group)) +
     geom_line() +
     scale_linetype_manual(values = c('solid', 'dashed'), labels = c('All_children', 'High_consumer')) +
