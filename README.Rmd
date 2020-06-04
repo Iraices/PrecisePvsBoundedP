@@ -28,7 +28,7 @@ The aim of `ppvsbp` package is to make available the code used in the paper
 You can install the development version of `ppvsbp` from [github](https://github.com/Iraices/PrecisePvsBoundedP) with:
 
 ```{r}
-# remotes::install_github('Iraices/PrecisePvsBoundedP')
+remotes::install_github('Iraices/PrecisePvsBoundedP')
 ```
 
 ## Example
@@ -39,7 +39,7 @@ First, let us estimate the probability of exceeding the safety threshold for all
 ```{r}
 library(ppvsbp)
 ## basic example code
-TWI_pp <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
+TWI_pp <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
                                   percentile_ale = NULL,
                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -66,7 +66,7 @@ Second, let us estimate the probability of exceeding the safety threshold for a 
 `percentile_ale` has changed `percentile_ale = 95`.
 
 ```{r}
-  TWI_pp_high_consumer <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
+  TWI_pp_high_consumer <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
                                    percentile_ale = 95,
                                    suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                    suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -112,7 +112,7 @@ First, let us consider all children
   lower_bound_prob <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
                                             lower_parameters  = c(1, -5, -20), 
                                             upper_parameters  = c(6, 1, -10),
-                                            niter_ale = 1000, niter_epi = 1000, threshold = 1, percentile_ale = NULL,
+                                            niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,
                                             suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                             suff_stat_consumption = data_assessment$log_consumption_ss_data,
                                             consumption_change_vals_EKE = c(-15, 7.5), 
@@ -132,7 +132,7 @@ First, let us consider all children
   upper_bound_prob <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
                                            lower_parameters  = c(1, -5, -20), 
                                            upper_parameters  = c(6, 1, -10),
-                                           niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                           niter_ale = 2000, niter_epi = 2000, threshold = 1, 
                                            percentile_ale = NULL,
                                            suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                            suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -156,7 +156,7 @@ Now, let us consider a high consumer child
   lower_bound_high_consumer <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
                                                    lower_parameters  = c(1, -5, -20), 
                                                    upper_parameters  = c(6, 1, -10),
-                                                   niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                                   niter_ale = 2000, niter_epi = 2000, threshold = 1, 
                                                    percentile_ale = 95,
                                                    suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                                    suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -178,7 +178,7 @@ Now, let us consider a high consumer child
   upper_bound_high_consumer <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
                                                     lower_parameters  = c(1, -5, -20), 
                                                     upper_parameters  = c(6, 1, -10),
-                                                    niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                                    niter_ale = 2000, niter_epi = 2000, threshold = 1, 
                                                     percentile_ale = 95,
                                                     suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                                     suff_stat_consumption = data_assessment$log_consumption_ss_data,

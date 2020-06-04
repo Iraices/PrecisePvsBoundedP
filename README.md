@@ -17,7 +17,9 @@ You can install the development version of `ppvsbp` from
 [github](https://github.com/Iraices/PrecisePvsBoundedP) with:
 
 ``` r
-# remotes::install_github('Iraices/PrecisePvsBoundedP')
+remotes::install_github('Iraices/PrecisePvsBoundedP')
+#> Skipping install of 'ppvsbp' from a github remote, the SHA1 (fb440438) has not changed since last install.
+#>   Use `force = TRUE` to force installation
 ```
 
 ## Example
@@ -31,7 +33,7 @@ for all chidren
 ``` r
 library(ppvsbp)
 ## basic example code
-TWI_pp <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
+TWI_pp <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
                                   percentile_ale = NULL,
                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -47,13 +49,13 @@ TWI_pp <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold 
 str(TWI_pp)
 #> List of 6
 #>  $ prob_consumption_event  :List of 7
-#>   ..$ : num 0.135
-#>   ..$ : num 0.641
-#>   ..$ : num 0.249
-#>   ..$ : num 0.126
-#>   ..$ : num 0.271
-#>   ..$ : num 0.502
-#>   ..$ : num 0.303
+#>   ..$ : num 0.127
+#>   ..$ : num 0.639
+#>   ..$ : num 0.222
+#>   ..$ : num 0.121
+#>   ..$ : num 0.27
+#>   ..$ : num 0.468
+#>   ..$ : num 0.326
 #>  $ parameters_concentration:List of 7
 #>   ..$ :List of 2
 #>   .. ..$ prior    :List of 4
@@ -210,20 +212,20 @@ str(TWI_pp)
 #>   .. .. ..$ v    : num 226
 #>   .. .. ..$ alpha: num 112
 #>   .. .. ..$ beta : num 184
-#>  $ prob_exceed             : num [1:1000] 0.042 0.035 0.091 0.034 0.024 0.029 0.026 0.02 0.026 0.033 ...
-#>  $ expected_prob_exceed    : num 0.0392
-#>  $ hdi_prob_exceed         : Named num [1:2] 0.012 0.073
+#>  $ prob_exceed             : num [1:5000] 0.043 0.0402 0.052 0.0414 0.0422 0.0318 0.0512 0.047 0.0524 0.0506 ...
+#>  $ expected_prob_exceed    : num 0.04
+#>  $ hdi_prob_exceed         : Named num [1:2] 0.0094 0.0706
 #>   ..- attr(*, "names")= chr [1:2] "lower" "upper"
 #>   ..- attr(*, "credMass")= num 0.95
 
 ## Expected probability of exceeding the safety threshold
 TWI_pp$expected_prob_exceed
-#> [1] 0.039249
+#> [1] 0.03999584
 
 ## Highest posterior density interval of the probability of exceeding the safety threshold
 TWI_pp$hdi_prob_exceed
-#> lower upper 
-#> 0.012 0.073 
+#>  lower  upper 
+#> 0.0094 0.0706 
 #> attr(,"credMass")
 #> [1] 0.95
 ```
@@ -233,7 +235,7 @@ threshold for a high consumer child. Note, the argument `percentile_ale`
 has changed `percentile_ale = 95`.
 
 ``` r
-  TWI_pp_high_consumer <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
+  TWI_pp_high_consumer <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
                                    percentile_ale = 95,
                                    suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                    suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -250,13 +252,13 @@ has changed `percentile_ale = 95`.
 str(TWI_pp_high_consumer)
 #> List of 6
 #>  $ prob_consumption_event  :List of 7
-#>   ..$ : num 0.176
-#>   ..$ : num 0.683
-#>   ..$ : num 0.249
-#>   ..$ : num 0.117
-#>   ..$ : num 0.281
-#>   ..$ : num 0.466
-#>   ..$ : num 0.325
+#>   ..$ : num 0.144
+#>   ..$ : num 0.646
+#>   ..$ : num 0.216
+#>   ..$ : num 0.125
+#>   ..$ : num 0.255
+#>   ..$ : num 0.468
+#>   ..$ : num 0.289
 #>  $ parameters_concentration:List of 7
 #>   ..$ :List of 2
 #>   .. ..$ prior    :List of 4
@@ -413,20 +415,20 @@ str(TWI_pp_high_consumer)
 #>   .. .. ..$ v    : num 226
 #>   .. .. ..$ alpha: num 112
 #>   .. .. ..$ beta : num 184
-#>  $ prob_exceed             : num [1:1000] 0.614 0.528 0.479 0.896 0.511 0.62 0.494 0.414 0.586 0.165 ...
-#>  $ expected_prob_exceed    : num 0.574
-#>  $ hdi_prob_exceed         : Named num [1:2] 0.242 0.912
+#>  $ prob_exceed             : num [1:5000] 0.582 0.627 0.702 0.528 0.569 ...
+#>  $ expected_prob_exceed    : num 0.577
+#>  $ hdi_prob_exceed         : Named num [1:2] 0.208 0.881
 #>   ..- attr(*, "names")= chr [1:2] "lower" "upper"
 #>   ..- attr(*, "credMass")= num 0.95
 
 ## Expected probability of exceeding the safety threshold
 TWI_pp_high_consumer$expected_prob_exceed
-#> [1] 0.573948
+#> [1] 0.5771934
 
 ## Highest posterior density interval of the probability of exceeding the safety threshold
 TWI_pp_high_consumer$hdi_prob_exceed
-#> lower upper 
-#> 0.242 0.912 
+#>  lower  upper 
+#> 0.2080 0.8814 
 #> attr(,"credMass")
 #> [1] 0.95
 ```
@@ -468,7 +470,7 @@ First, let us consider all children
   lower_bound_prob <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
                                             lower_parameters  = c(1, -5, -20), 
                                             upper_parameters  = c(6, 1, -10),
-                                            niter_ale = 1000, niter_epi = 1000, threshold = 1, percentile_ale = NULL,
+                                            niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,
                                             suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                             suff_stat_consumption = data_assessment$log_consumption_ss_data,
                                             consumption_change_vals_EKE = c(-15, 7.5), 
@@ -488,7 +490,7 @@ First, let us consider all children
   upper_bound_prob <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
                                            lower_parameters  = c(1, -5, -20), 
                                            upper_parameters  = c(6, 1, -10),
-                                           niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                           niter_ale = 2000, niter_epi = 2000, threshold = 1, 
                                            percentile_ale = NULL,
                                            suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                            suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -512,7 +514,7 @@ Now, let us consider a high consumer child
   lower_bound_high_consumer <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
                                                    lower_parameters  = c(1, -5, -20), 
                                                    upper_parameters  = c(6, 1, -10),
-                                                   niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                                   niter_ale = 2000, niter_epi = 2000, threshold = 1, 
                                                    percentile_ale = 95,
                                                    suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                                    suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -534,7 +536,7 @@ Now, let us consider a high consumer child
   upper_bound_high_consumer <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
                                                     lower_parameters  = c(1, -5, -20), 
                                                     upper_parameters  = c(6, 1, -10),
-                                                    niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                                    niter_ale = 2000, niter_epi = 2000, threshold = 1, 
                                                     percentile_ale = 95,
                                                     suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                                     suff_stat_consumption = data_assessment$log_consumption_ss_data,
