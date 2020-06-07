@@ -47,15 +47,15 @@ graph_bp <- function(lower_points, upper_points){
     geom_line() +
     scale_color_manual(labels = c('Upper', 'Lower'), values = c('red', 'blue')) +
     guides(color = guide_legend("Bounds")) +
+    xlim(0,1) +
     labs(
       title = "Uncertainty",
       x = "Frequency of exceeding TWI",
-      y = "cdf")
-  p +
+      y = "cdf") +
     theme(title = element_text(size = 15),
           axis.title = element_text(size = 15), axis.text = element_text(size = 15),
           legend.title = element_text(size = 15),
           legend.text = element_text(size = 15))
-
+  p
 
 }

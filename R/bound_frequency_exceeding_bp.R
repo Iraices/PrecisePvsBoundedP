@@ -41,7 +41,7 @@
 #' @return ## Two lists
 #' \enumerate{
 #' \item opt_value
-#' \item opt_frequency
+#' \item opt_freq
 #' }
 #' The components of the first list (\emph{opt_value}) are
 #' \describe{
@@ -52,7 +52,7 @@
 #' \item{convergence}{An integer code indicating type of convergence. 0 indicates successful convergence. Positive integer codes indicate failure to converge}
 #' \item{message}{Text message indicating the type of convergence or failure}
 #' }
-#' The components of the second list (\emph{opt_prob}) are
+#' The components of the second list (\emph{opt_freq}) are
 #' \describe{
 #' \item{prob_consumption_event}{The estimated probability of consumption events}
 #' \item{parameters_concentration}{A list with the values of the prior and posterior parameters of concentration}

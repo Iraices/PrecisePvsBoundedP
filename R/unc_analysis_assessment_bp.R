@@ -176,7 +176,7 @@ unc_analysis_assessment_bp <- function(niter_ale, niter_epi,
       gen_data_consumption[[k]]$gen_sample  <- gen_data_consumption_prime[[k]]$gen_sample * rbinom(n = niter_ale, size = 1, prob = prob_consumption_event[[k]])
     }
 
-    frequency_excceding[[i]] <- combine_uncertainty(gen_data_concentration =  gen_data_concentration, gen_data_consumption = gen_data_consumption,
+    frequency_exceeding[[i]] <- combine_uncertainty(gen_data_concentration =  gen_data_concentration, gen_data_consumption = gen_data_consumption,
                                             gen_data_EKE = gen_data_EKE, threshold =  threshold, niter_ale = niter_ale)
 
   }

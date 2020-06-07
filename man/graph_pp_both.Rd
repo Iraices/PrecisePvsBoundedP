@@ -6,13 +6,13 @@
 \usage{
 graph_pp_both(
   frequency_exceeding_random_child,
-  frequency_exceeding_high_consumer
+  frequency_exceeding_high_consumer_child
 )
 }
 \arguments{
-\item{frequency_exceeding_random_child}{a vector of frequency of exceedance corresponding to a random child}
+\item{frequency_exceeding_random_child}{A vector of frequency of exceeding corresponding to a random child}
 
-\item{frequency_exceeding_high_consumer}{a vector of probabilities of exceedance corresponding to a high consumer child}
+\item{frequency_exceeding_high_consumer_child}{A vector of frequency of exceeding corresponding to a high consumer child}
 }
 \value{
 a plot

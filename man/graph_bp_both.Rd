@@ -7,8 +7,8 @@
 graph_bp_both(
   lower_points_random_child,
   upper_points_random_child,
-  lower_points_high_consumer,
-  upper_points_high_consumer
+  lower_points_high_consumer_child,
+  upper_points_high_consumer_child
 )
 }
 \arguments{
@@ -16,9 +16,9 @@ graph_bp_both(
 
 \item{upper_points_random_child}{A vector with the upper cdf sequence corresponding to a random child}
 
-\item{lower_points_high_consumer}{A vector with the lower cdf sequence corresponding to a high consumer child}
+\item{lower_points_high_consumer_child}{A vector with the lower cdf sequence corresponding to a high consumer child}
 
-\item{upper_points_high_consumer}{A vector with the upper cdf sequence corresponding to a high consumer child}
+\item{upper_points_high_consumer_child}{A vector with the upper cdf sequence corresponding to a high consumer child}
 }
 \value{
 a plot
