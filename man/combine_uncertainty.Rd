@@ -24,8 +24,8 @@ combine_uncertainty(
 \item{niter_ale}{number of generated samples}
 }
 \value{
-prob_exceed_wi           the probability of exceeding the weekly intake
+frequency_exceeding_wi         the frequency of exceeding the weekly intake
 }
 \description{
-This function estimates the probability of exceeding the weekly intake
+This function estimates the frequency of exceeding the weekly intake
 }

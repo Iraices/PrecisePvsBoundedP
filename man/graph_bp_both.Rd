@@ -5,16 +5,16 @@
 \title{Graph both - Bounded probability}
 \usage{
 graph_bp_both(
-  lower_points_all,
-  upper_points_all,
+  lower_points_random_child,
+  upper_points_random_child,
   lower_points_high_consumer,
   upper_points_high_consumer
 )
 }
 \arguments{
-\item{lower_points_all}{A vector with the lower cdf sequence corresponding to all children}
+\item{lower_points_random_child}{A vector with the lower cdf sequence corresponding to a random child}
 
-\item{upper_points_all}{A vector with the upper cdf sequence corresponding to all children}
+\item{upper_points_random_child}{A vector with the upper cdf sequence corresponding to a random child}
 
 \item{lower_points_high_consumer}{A vector with the lower cdf sequence corresponding to a high consumer child}
 

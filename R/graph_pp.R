@@ -2,7 +2,7 @@
 #'
 #' Plot a cumulative distribution function.
 #'
-#' @param prob_exceed  a vector of probabilities of exceedance
+#' @param frequency_exceeding  a vector of frequency of exceeding
 #'
 #' @return
 #' a plot
@@ -13,14 +13,15 @@
 #'
 #' @export
 #'
-graph_pp <- function(prob_exceed){
+graph_pp <- function(frequency_exceeding){
 
-  prob_cdf <- c(1:length(prob_exceed))/(length(prob_exceed))
-  data_plot <- data.frame(prob_exceed = sort(prob_exceed), prob_cdf = prob_cdf)
+  frequency_exceeding_cdf <- c(1:length(frequency_exceeding))/(length(frequency_exceeding))
+  data_plot <- data.frame(frequency_exceeding = sort(frequency_exceeding), frequency_exceeding_cdf = frequency_exceeding_cdf)
 
   data_plot %>%
-    ggplot(mapping = aes(y = prob_cdf,  x = prob_exceed)) +
+    ggplot(mapping = aes(y = frequency_exceeding_cdf,  x = frequency_exceeding)) +
     geom_line() +
+    xlim(0,1) +
     labs(
       title = "Uncertainty",
       x = "Frequency of exceeding TWI",

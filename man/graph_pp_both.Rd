@@ -4,17 +4,20 @@
 \alias{graph_pp_both}
 \title{Graph both - Precise probability}
 \usage{
-graph_pp_both(prob_exceed_all, prob_exceed_high_consumer)
+graph_pp_both(
+  frequency_exceeding_random_child,
+  frequency_exceeding_high_consumer
+)
 }
 \arguments{
-\item{prob_exceed_all}{a vector of probabilities of exceedance corresponding to all children}
+\item{frequency_exceeding_random_child}{a vector of frequency of exceedance corresponding to a random child}
 
-\item{prob_exceed_high_consumer}{a vector of probabilities of exceedance corresponding to a high consumer child}
+\item{frequency_exceeding_high_consumer}{a vector of probabilities of exceedance corresponding to a high consumer child}
 }
 \value{
 a plot
 }
 \description{
-Plot two cumulative distribution functions: all children and a high consumer child.
-prob_exceed_all and prob_exceed_high_consumer must have the same length
+Plot two cumulative distribution functions: a random child  and a high consumer child.
+frequency_exceeding_random_child and frequency_exceeding_high_consumer must have the same length
 }

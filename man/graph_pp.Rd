@@ -4,10 +4,10 @@
 \alias{graph_pp}
 \title{Graph - Precise probability}
 \usage{
-graph_pp(prob_exceed)
+graph_pp(frequency_exceeding)
 }
 \arguments{
-\item{prob_exceed}{a vector of probabilities of exceedance}
+\item{frequency_exceeding}{a vector of frequency of exceeding}
 }
 \value{
 a plot

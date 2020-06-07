@@ -37,7 +37,7 @@ obj_func_bp(
 
 \item{threshold}{safety threshold}
 
-\item{percentile_ale}{a value that indicates if the assessment is done on all population by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}}
+\item{percentile_ale}{a value that indicates if the assessment is done on a random child  by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}}
 
 \item{suff_stat_concentration}{a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
@@ -78,7 +78,7 @@ sufficient_statistics_consumption is given as observed data. Default is \code{TR
 \item{consumption_event_beta0}{prior hyperparameter \emph{beta0} for the beta distribution corresponding to consumption event}
 }
 \value{
-expected_prob_exceed                        the expected value of the probability of exceeding the threshold
+expected_frequency_exceeding               the expected value of the frequency of exceeding the threshold
 }
 \description{
 This is the objective function (a function to be optimized)

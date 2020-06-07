@@ -1,10 +1,10 @@
 #' Graph both - Precise probability
 #'
-#'Plot two cumulative distribution functions: all children and a high consumer child.
-#' prob_exceed_all and prob_exceed_high_consumer must have the same length
+#'Plot two cumulative distribution functions: a random child  and a high consumer child.
+#' frequency_exceeding_random_child and frequency_exceeding_high_consumer must have the same length
 #'
-#' @param prob_exceed_all  a vector of probabilities of exceedance corresponding to all children
-#' @param prob_exceed_high_consumer a vector of probabilities of exceedance corresponding to a high consumer child
+#' @param frequency_exceeding_random_child  a vector of frequency of exceedance corresponding to a random child
+#' @param frequency_exceeding_high_consumer a vector of probabilities of exceedance corresponding to a high consumer child
 #'
 #' @return
 #' a plot
@@ -16,22 +16,22 @@
 #'
 #' @export
 #'
-graph_pp_both <- function(prob_exceed_all, prob_exceed_high_consumer){
+graph_pp_both <- function(frequency_exceeding_random_child, frequency_exceeding_high_consumer){
 
   # data wide format
-  data_plot_wide <- data.frame(prob_exceed_all = sort(prob_exceed_all),
-                          prob_exceed_high_consumer = sort(prob_exceed_high_consumer),
-                          prob_cdf = c(1:length(prob_exceed_all)/length(prob_exceed_all)))
+  data_plot_wide <- data.frame(frequency_exceeding_random_child = sort(frequency_exceeding_random_child),
+                               frequency_exceeding_high_consumer = sort(frequency_exceeding_high_consumer),
+                               frequency_exceeding_cdf = c(1:length(frequency_exceeding_random_child)/length(frequency_exceeding_random_child)))
 
   # data long format
-  data_plot_long <- gather(data_plot_wide, "group", "values", .data$prob_exceed_all,
-                      .data$prob_exceed_high_consumer, factor_key = TRUE)
+  data_plot_long <- gather(data_plot_wide, "group", "values", .data$frequency_exceeding_random_child,
+                      .data$frequency_exceeding_high_consumer, factor_key = TRUE)
 
   p <- data_plot_long %>%
-    ggplot(aes(x = .data$values, y = .data$prob_cdf, group = .data$group, linetype = .data$group)) +
+    ggplot(aes(x = .data$values, y = .data$frequency_exceeding_cdf, group = .data$group, linetype = .data$group)) +
     geom_line() +
-    scale_linetype_manual(values = c('solid', 'dashed'), labels = c('All_children', 'High_consumer')) +
-    guides(linetype = guide_legend("Groups")) +
+    scale_linetype_manual(values = c('solid', 'dashed'), labels = c('Random_child', 'High_consumer_child')) +
+    guides(linetype = guide_legend("Cases")) +
     labs(
       title = "Uncertainty",
       x = "Frequency of exceeding TWI",

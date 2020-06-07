@@ -36,7 +36,7 @@ unc_analysis_assessment(
 
 \item{threshold}{safety threshold}
 
-\item{percentile_ale}{a value that indicates if the assessment is done on all population by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}}
+\item{percentile_ale}{a value that indicates if the assessment is done on a random child by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}}
 
 \item{suff_stat_concentration}{a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 corresponding to concentration. If sufficient_statistics_concentration =  \code{FALSE},
@@ -85,41 +85,12 @@ a list with the following components
 \item{prob_consumption_event}{The estimated probability of consumption events}
 \item{parameters_concentration}{A list with the values of the prior and posterior parameters of concentration}
 \item{parameters_consumption}{A list with the prior and posterior parameters of consumption}
-\item{prob_exceed}{A vector with the estimated probabilities of exceeding the threshold (the lenght is niter_epi)}
-\item{expected_prob_exceed}{The expected value of the probability of exceeding the threshold}
-\item{hdi_prob_exceed}{The highest posterior density interval of the probability of exceeding the threshold}
+\item{frequency_exceeding}{A vector with the estimated frequency of exceeding the threshold (the lenght is niter_epi)}
+\item{expected_frequency_exceeding}{The expected value of the frequency of exceeding the threshold}
+\item{hdi_expected_frequency}{The highest posterior density interval of the fequency of exceeding the threshold}
 }
 }
 \description{
 This function does the aluminium exposure assessment. It estimates the expected value and
-the highest posterior density of the probability of exceeding the threshold
-}
-\examples{
-
-TWI_pp <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
-                                  percentile_ale = NULL,
-                                  suff_stat_concentration = data_assessment$log_concentration_ss_data,
-                                  suff_stat_consumption = data_assessment$log_consumption_ss_data,
-                                  consumption_change_vals_EKE = data_assessment$change_cons$vals,
-                                  consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
-                                  consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-                                  concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
-                                  concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
-                                  consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
-                                  consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
-                                  consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
-\dontrun{
- TWI_pp_high_consumer <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
-                                  percentile_ale = 95,
-                                  suff_stat_concentration = data_assessment$log_concentration_ss_data,
-                                  suff_stat_consumption = data_assessment$log_consumption_ss_data,
-                                  consumption_change_vals_EKE = data_assessment$change_cons$vals,
-                                  consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
-                                  consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-                                  concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
-                                  concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
-                                  consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
-                                  consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
-                                  consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
-}
+the highest posterior density of the frequency of exceeding the threshold
 }

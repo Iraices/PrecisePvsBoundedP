@@ -28,18 +28,18 @@ The aim of `ppvsbp` package is to make available the code used in the paper
 You can install the development version of `ppvsbp` from [github](https://github.com/Iraices/PrecisePvsBoundedP) with:
 
 ```{r}
-remotes::install_github('Iraices/PrecisePvsBoundedP')
+# remotes::install_github('Iraices/PrecisePvsBoundedP')
 ```
 
 ## Example
 This example does the aluminium exposure assessment by precise probability.
 
-First, let us estimate the probability of exceeding the safety threshold for all chidren
+First, let us estimate the frequency of exceeding the safety threshold for a random child
 
 ```{r}
 library(ppvsbp)
 ## basic example code
-TWI_pp <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
+TWI_pp_random_child <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
                                   percentile_ale = NULL,
                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -51,18 +51,16 @@ TWI_pp <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold 
                                   consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
                                   consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
                                   consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
-## Outputs
-str(TWI_pp)
 
-## Expected probability of exceeding the safety threshold
-TWI_pp$expected_prob_exceed
+## Expected frequency of exceeding the safety threshold
+TWI_pp_random_child$expected_prob_exceed
 
-## Highest posterior density interval of the probability of exceeding the safety threshold
-TWI_pp$hdi_prob_exceed
+## Highest posterior density interval of the frequency of exceeding the safety threshold
+TWI_pp_random_child$hdi_prob_exceed
 
 ```
 
-Second, let us estimate the probability of exceeding the safety threshold for a high consumer child. Note, the argument
+Second, let us estimate the frequency of exceeding the safety threshold for a high consumer child. Note, the argument
 `percentile_ale` has changed `percentile_ale = 95`.
 
 ```{r}
@@ -79,9 +77,6 @@ Second, let us estimate the probability of exceeding the safety threshold for a 
                                    consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
                                    consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
 
-## Outputs
-str(TWI_pp_high_consumer)
-
 ## Expected probability of exceeding the safety threshold
 TWI_pp_high_consumer$expected_prob_exceed
 
@@ -92,24 +87,29 @@ TWI_pp_high_consumer$hdi_prob_exceed
 We can now visualize the results. Epistemic uncertainty has been characterized by a full probability distribution
 
 ```{r fig1, out.width = '70%'}
- ## All children
-  graph_pp(prob_exceed = TWI_pp$prob_exceed)
+ ## A random children
+  graph_pp(frequency_exceeding = TWI_pp_random_child$frequency_exceeding)
     
  ## A high consumer child
-  graph_pp(prob_exceed = TWI_pp_high_consumer$prob_exceed)
+  graph_pp(frequency_exceeding = TWI_pp_high_consumer$frequency_exceeding)
     
  ## both graphs
-    graph_pp_both(prob_exceed_all = TWI_pp$prob_exceed, 
-                   prob_exceed_high_consumer = TWI_pp_high_consumer$prob_exceed)
+    graph_pp_both(frequency_exceeding_random_child = TWI_pp_random_child$frequency_exceeding, 
+                   frequency_exceeding_high_consumer = TWI_pp_high_consumer$frequency_exceeding)
 ```
 
-Now, let us estimate the probability of exceeding the safety threshold by bounded probability. 
+```{r fig2, out.width = '85%'}
+ ## both graphs
+    graph_pp_both(prob_exceed_all = TWI_pp_random_child$frequency_exceeding, 
+                   prob_exceed_high_consumer = TWI_pp_high_consumer$frequency_exceeding)
+```
+Now, let us estimate the frequency of exceeding the safety threshold by bounded probability. 
 
-First, let us consider all children
+First, let us consider a random child
 
 ```{r}
   ## All children
-  lower_bound_prob <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
+  lower_bound_random_child <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
                                             lower_parameters  = c(1, -5, -20), 
                                             upper_parameters  = c(6, 1, -10),
                                             niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,
@@ -129,7 +129,7 @@ First, let us consider all children
 
   
   ## All children
-  upper_bound_prob <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
+  upper_bound_random_child <- bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
                                            lower_parameters  = c(1, -5, -20), 
                                            upper_parameters  = c(6, 1, -10),
                                            niter_ale = 2000, niter_epi = 2000, threshold = 1, 
@@ -197,14 +197,14 @@ Now, let us consider a high consumer child
 
 ```
 
-We can visualize the results individualy or together. In this case, epistemic uncertainty has been characterized by a p-box.
+We can visualize the results individualy or together. In this case, epistemic uncertainty has been characterized by a probabilty box.
 
 Individual figures
 
-```{r fig2, out.width = '70%'}
+```{r fig3, out.width = '70%'}
  ## All children
- graph_bp(lower_points = lower_bound_prob$opt_prob$prob_exceed, 
-          upper_points = upper_bound_prob$opt_prob$prob_exceed)
+ graph_bp(lower_points = lower_bound_random_child$opt_prob$prob_exceed, 
+          upper_points = upper_bound_random_child$opt_prob$prob_exceed)
     
  ## A high consumer child
  graph_bp(lower_points = lower_bound_high_consumer$opt_prob$prob_exceed, 
@@ -213,10 +213,10 @@ Individual figures
 
 Both figures together
 
-```{r fig3, out.width = '70%'}  
+```{r fig4, out.width = '70%'}  
  ## Both graphs
-  graph_bp_both(lower_points_all = lower_bound_prob$opt_prob$prob_exceed, 
-                upper_points_all = upper_bound_prob$opt_prob$prob_exceed,
+  graph_bp_both(lower_points_all = lower_bound_random_child$opt_prob$prob_exceed, 
+                upper_points_all = upper_bound_random_child$opt_prob$prob_exceed,
                 lower_points_high_consumer = lower_bound_high_consumer$opt_prob$prob_exceed, 
                 upper_points_high_consumer = upper_bound_high_consumer$opt_prob$prob_exceed)
 ```

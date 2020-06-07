@@ -1,13 +1,13 @@
 #' Uncertainty analysis assessment
 #'
 #' This function does the aluminium exposure assessment. It estimates the expected value and
-#' the highest posterior density of the probability of exceeding the threshold
+#' the highest posterior density of the frequency of exceeding the threshold
 #'
 #' @param niter_ale    number of generated samples
 #' @param niter_epi    number of generated parameters from the posterior distrbutions
 #'                     (it indicates the number of repetitions the assessment will be done)
 #' @param threshold    safety threshold
-#' @param percentile_ale a value that indicates if the assessment is done on all population by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}
+#' @param percentile_ale a value that indicates if the assessment is done on a random child by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}
 #'
 #' @param suff_stat_concentration       a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 #'                                      corresponding to concentration. If sufficient_statistics_concentration =  \code{FALSE},
@@ -40,19 +40,19 @@
 #' \item{prob_consumption_event}{The estimated probability of consumption events}
 #' \item{parameters_concentration}{A list with the values of the prior and posterior parameters of concentration}
 #' \item{parameters_consumption}{A list with the prior and posterior parameters of consumption}
-#' \item{prob_exceed}{A vector with the estimated probabilities of exceeding the threshold (the lenght is niter_epi)}
-#' \item{expected_prob_exceed}{The expected value of the probability of exceeding the threshold}
-#' \item{hdi_prob_exceed}{The highest posterior density interval of the probability of exceeding the threshold}
+#' \item{frequency_exceeding}{A vector with the estimated frequency of exceeding the threshold (the lenght is niter_epi)}
+#' \item{expected_frequency_exceeding}{The expected value of the frequency of exceeding the threshold}
+#' \item{hdi_expected_frequency}{The highest posterior density interval of the fequency of exceeding the threshold}
 #' }
 #'
 #' @importFrom HDInterval hdi
-#' @importFrom stats rbeta rnorm
+#' @importFrom stats rbeta rnorm rbinom
 #'
 #' @export
 #'
 #' @examples
-#'
-#' TWI_pp <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
+#''\dontrun{
+#' TWI_pp_random_child <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
 #'                                   percentile_ale = NULL,
 #'                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
 #'                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -89,16 +89,17 @@ unc_analysis_assessment <- function(niter_ale, niter_epi, threshold, percentile_
                                     consumption_event_alpha0, consumption_event_beta0){
 
   nr_products <-  length(suff_stat_concentration)
-  prob_consumption <- parameters_consumption <- parameters_concentration <- vector('list', nr_products)
+  prob_consumption_event <- parameters_consumption <- parameters_concentration <- vector('list', nr_products)
 
   # Probability of a child i consumes chocolate product k
-  param_consumption <-  lapply(consumers_info_sample_size, update_bernoulli_beta, alpha0 = consumption_event_alpha0, beta0 = consumption_event_beta0)
+  param_consumption_event <-  lapply(consumers_info_sample_size, update_bernoulli_beta, alpha0 = consumption_event_alpha0, beta0 = consumption_event_beta0)
 
   for(k in 1:nr_products){
-    prob_consumption[[k]] <-  rbeta(1,shape1 = param_consumption[[k]]$param$posterior$alpha, shape2 = param_consumption[[k]]$param$posterior$beta)
+    prob_consumption_event[[k]] <-  rbeta(1,shape1 = param_consumption_event[[k]]$param$posterior$alpha,
+                                    shape2 = param_consumption_event[[k]]$param$posterior$beta)
   }
 
-  prob_exceed <- rep(0, niter_epi)
+  frequency_exceeding <- rep(0, niter_epi)
 
   post_concentration <-  lapply(suff_stat_concentration, update_normal_gamma, mu0 = concentration_mu0,
                                 v0 = concentration_v0, alpha0 = concentration_alpha0,
@@ -113,9 +114,6 @@ unc_analysis_assessment <- function(niter_ale, niter_epi, threshold, percentile_
     parameters_consumption[[j]] <-  post_consumption[[j]]$param
   }
 
-  # fit_normal_dist_EKE <- estimate_parameters_normal_dist_from_two_percentiles(vals = consumption_change_vals_EKE,
-  #                                                                          probs = consumption_change_probs_EKE)
-
   fit_normal_dist_EKE <- quantify_uncertainty_pp_change_eke(vals = consumption_change_vals_EKE,
                                                             probs = consumption_change_probs_EKE)
 
@@ -123,22 +121,29 @@ unc_analysis_assessment <- function(niter_ale, niter_epi, threshold, percentile_
 
     gen_data_concentration <-  lapply(post_concentration, generate_samples_normal_gamma, niter_ale = niter_ale, percentile_ale = NULL)
 
-    gen_data_consumption <-  lapply(post_consumption, generate_samples_normal_gamma, niter_ale = niter_ale, percentile_ale = percentile_ale)
+    gen_data_consumption_prime <-  lapply(post_consumption, generate_samples_normal_gamma, niter_ale = niter_ale, percentile_ale = percentile_ale)
+
+    gen_data_consumption <- gen_data_consumption_prime
 
     gen_data_EKE = rnorm(1, mean =  fit_normal_dist_EKE[[1]], sd =  fit_normal_dist_EKE[[2]])
 
-    prob_exceed[[i]] <- combine_uncertainty(gen_data_concentration =  gen_data_concentration, gen_data_consumption = gen_data_consumption,
+    for(k in 1:nr_products){
+
+      gen_data_consumption[[k]]$gen_sample  <- gen_data_consumption_prime[[k]]$gen_sample * rbinom(n = niter_ale, size = 1, prob = prob_consumption_event[[k]])
+    }
+
+    frequency_exceeding[[i]] <- combine_uncertainty(gen_data_concentration =  gen_data_concentration, gen_data_consumption = gen_data_consumption,
                                             gen_data_EKE = gen_data_EKE, threshold =  threshold, niter_ale = niter_ale)
 
   }
 
-  expected_prob_exceed <- mean(prob_exceed)
-  hdi_prob_exceed <- hdi(prob_exceed, credMass = 0.95) # Highest (Posterior) Density Interval
+  expected_frequency_exceeding <- mean(frequency_exceeding)
+  hdi_frequency_exceeding <- hdi(frequency_exceeding, credMass = 0.95) # Highest (Posterior) Density Interval
 
-  return(list(prob_consumption_event = prob_consumption,
+  return(list(prob_consumption_event = prob_consumption_event,
               parameters_concentration = parameters_concentration,
               parameters_consumption = parameters_consumption,
-              prob_exceed = prob_exceed,
-              expected_prob_exceed = expected_prob_exceed,
-              hdi_prob_exceed = hdi_prob_exceed))
+              frequency_exceeding = frequency_exceeding,
+              expected_frequency_exceeding = expected_frequency_exceeding,
+              hdi_frequency_exceeding = hdi_frequency_exceeding))
 }

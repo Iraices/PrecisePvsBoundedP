@@ -36,7 +36,7 @@ unc_analysis_assessment_bp(
 
 \item{threshold}{safety threshold}
 
-\item{percentile_ale}{a value that indicates if the assessment is done on all population by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}}
+\item{percentile_ale}{a value that indicates if the assessment is done on a random child by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}}
 
 \item{suff_stat_concentration}{a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
@@ -85,20 +85,20 @@ a list with the following components
 \item{prob_consumption_event}{The estimated probability of consumption events}
 \item{parameters_concentration}{A list with the values of the prior and posterior parameters of concentration}
 \item{parameters_consumption}{A list with the prior and posterior parameters of consumption}
-\item{prob_exceed}{A vector with the estimated probabilities of exceeding the threshold (the lenght is niter_epi)}
-\item{expected_prob_exceed}{The expected value of the probability of exceeding the threshold}
-\item{hdi_prob_exceed}{The highest posterior density interval of the probability of exceeding the threshold}
+\item{frequency_exceeding}{A vector with the estimated frequency of exceeding the threshold (the lenght is niter_epi)}
+\item{expected_frequency_exceeding}{The expected value of the frequency of exceeding the threshold}
+\item{hdi_frequency_exceeding}{The highest posterior density interval of the frequency of exceeding the threshold}
 }
 }
 \description{
 This function does the aluminium exposure assessment. It estimates the expected value and
-the highest posterior density of the probability of exceeding the threshold.
+the highest posterior density of the frequency of exceeding the threshold.
 Note: the difference respect to the precise probability is that a normal distribution is fitted to the elicited
-values from experts using two percentiles and by specifying bounds on the lower percentile.
+values from experts using two percentiles and by specifying bounds on a percentile.
 }
 \examples{
 \dontrun{
-lower_bound_prob = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE,
+lower_bound_random_child = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FALSE,
                                         lower_parameters  = c(1, -5, -20),
                                         upper_parameters  = c(6, 1, -10),
                                         niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,
@@ -115,7 +115,7 @@ lower_bound_prob = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = FA
                                         sufficient_statistics_consumption = TRUE,
                                         consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
 
-upper_bound_prob = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
+upper_bound_random_child = bound_prob_exceed_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
                                         lower_parameters  = c(1, -5, -20),
                                         upper_parameters  = c(6, 1, -10),
                                         niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,

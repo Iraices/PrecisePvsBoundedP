@@ -13,7 +13,7 @@ generate_samples_normal_gamma(niter_ale, post, percentile_ale = NULL)
 \item{post}{the output of update_normal_gamma function. Post is a list with the prior and posterior hyperparameters of the Normal-Gamma distribution.
 Prior and posterior are also list with hyperparameters \emph{mu, v, alpha} and \emph{beta}.}
 
-\item{percentile_ale}{a value that indicates if the assessment is done on all population by \code{NULL} (default) or on a high consumer child by 95.}
+\item{percentile_ale}{a value that indicates if the assessment is done on a random child  by \code{NULL} (default) or on a high consumer child by 95.}
 }
 \value{
 gen_sample      A vector with the generated samples

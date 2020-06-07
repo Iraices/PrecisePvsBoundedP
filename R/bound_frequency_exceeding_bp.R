@@ -10,7 +10,7 @@
 #' @param niter_epi                            number of generated parameters from the posterior distrbutions
 #'                                             (it indicates the number of repetitions the assessment will be done)
 #' @param threshold                            safety threshold
-#' @param percentile_ale                       a value that indicates if the assessment is done on all population by \code{NULL} or on a high consumer child by 95. Default is NULL
+#' @param percentile_ale                       a value that indicates if the assessment is done on a random child  by \code{NULL} or on a high consumer child by 95. Default is NULL
 #' @param suff_stat_concentration              a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 #'                                             corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
 #'                                             then it is vector of observed data
@@ -41,7 +41,7 @@
 #' @return ## Two lists
 #' \enumerate{
 #' \item opt_value
-#' \item opt_prob
+#' \item opt_frequency
 #' }
 #' The components of the first list (\emph{opt_value}) are
 #' \describe{
@@ -57,16 +57,16 @@
 #' \item{prob_consumption_event}{The estimated probability of consumption events}
 #' \item{parameters_concentration}{A list with the values of the prior and posterior parameters of concentration}
 #' \item{parameters_consumption}{A list with the prior and posterior parameters of consumption}
-#' \item{prob_exceed}{A vector with the estimated probabilities of exceeding the threshold (the lenght is niter_epi)}
-#' \item{expected_prob_exceed}{The expected value of the probability of exceeding the threshold}
-#' \item{hdi_prob_exceed}{The highest posterior density interval of the probability of exceeding the threshold}
+#' \item{frequency_exceeding}{A vector with the estimated frequency of exceeding the threshold (the lenght is niter_epi)}
+#' \item{expected_frequency_exceeding}{The expected value of the frequency of exceeding the threshold}
+#' \item{hdi_frequency_exceeding}{The highest posterior density interval of the frequency of exceeding the threshold}
 #' }
 #'
 #'@importFrom dfoptim nmkb
 #'
 #' @export
 #'
-bound_prob_exceed_bp  <- function(obj_func_bp, maximize = FALSE,
+bound_frequency_exceeding_bp  <- function(obj_func_bp, maximize = FALSE,
                                   lower_parameters  = c(1, -5, -20),
                                   upper_parameters  = c(6, 1, -10),
                                   niter_ale = 1000, niter_epi = 1000, threshold = 1, percentile_ale = NULL,
@@ -100,7 +100,7 @@ bound_prob_exceed_bp  <- function(obj_func_bp, maximize = FALSE,
                     consumption_event_beta0 = consumption_event_beta0)
 
 
-  out_prob <- unc_analysis_assessment_bp(niter_ale = niter_ale, niter_epi= niter_epi,
+  out_freq <- unc_analysis_assessment_bp(niter_ale = niter_ale, niter_epi= niter_epi,
                                          threshold = threshold, percentile_ale = percentile_ale,
                                          suff_stat_concentration = suff_stat_concentration,
                                          suff_stat_consumption = suff_stat_consumption,
@@ -115,5 +115,5 @@ bound_prob_exceed_bp  <- function(obj_func_bp, maximize = FALSE,
                                          sufficient_statistics_consumption = sufficient_statistics_consumption,
                                          consumption_event_alpha0 = consumption_event_alpha0, consumption_event_beta0 = consumption_event_beta0)
 
-  return(list(opt_value = opt_value, opt_prob = out_prob))
+  return(list(opt_value = opt_value, opt_freq = out_freq))
 }

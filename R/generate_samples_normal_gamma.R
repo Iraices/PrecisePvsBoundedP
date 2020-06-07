@@ -7,7 +7,7 @@
 #' @param niter_ale  number of generated samples
 #' @param post the output of update_normal_gamma function. Post is a list with the prior and posterior hyperparameters of the Normal-Gamma distribution.
 #'             Prior and posterior are also list with hyperparameters \emph{mu, v, alpha} and \emph{beta}.
-#' @param percentile_ale a value that indicates if the assessment is done on all population by \code{NULL} (default) or on a high consumer child by 95.
+#' @param percentile_ale a value that indicates if the assessment is done on a random child  by \code{NULL} (default) or on a high consumer child by 95.
 #'
 #'
 #' @return
