@@ -61,12 +61,12 @@ TWI_pp_random_child <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 500
 
 ## Expected frequency of exceeding the safety threshold
 TWI_pp_random_child$expected_frequency_exceeding
-#> [1] 0.00972916
+#> [1] 0.00967968
 
 ## Highest posterior density interval of the frequency of exceeding the safety threshold
 TWI_pp_random_child$hdi_frequency_exceeding
 #>  lower  upper 
-#> 0.0028 0.0168 
+#> 0.0034 0.0172 
 #> attr(,"credMass")
 #> [1] 0.95
 ```
@@ -91,12 +91,12 @@ changed `percentile_ale = 95`.
 
 ## Expected probability of exceeding the safety threshold
 TWI_pp_high_consumer_child$expected_frequency_exceeding
-#> [1] 0.06646228
+#> [1] 0.06332524
 
 ## Highest posterior density interval of the probability of exceeding the safety threshold
 TWI_pp_high_consumer_child$hdi_frequency_exceeding
 #>  lower  upper 
-#> 0.0150 0.1244 
+#> 0.0176 0.1210 
 #> attr(,"credMass")
 #> [1] 0.95
 ```
@@ -136,7 +136,7 @@ First, let us consider the case of a random child
   lower_bound_random_child <- bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
                                             lower_parameters  = c(1, -5, -20), 
                                             upper_parameters  = c(6, 1, -10),
-                                            niter_ale = 1000, niter_epi = 1000, threshold = 1, percentile_ale = NULL,
+                                            niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,
                                             suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                             suff_stat_consumption = data_assessment$log_consumption_ss_data,
                                             consumption_change_vals_EKE = c(-15, 7.5), 
@@ -156,7 +156,7 @@ First, let us consider the case of a random child
   upper_bound_random_child <- bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
                                            lower_parameters  = c(1, -5, -20), 
                                            upper_parameters  = c(6, 1, -10),
-                                           niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                           niter_ale = 2000, niter_epi = 2000, threshold = 1, 
                                            percentile_ale = NULL,
                                            suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                            suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -180,7 +180,7 @@ Now, let us consider the case of a high consumer child.
   lower_bound_high_consumer_child <- bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
                                                    lower_parameters  = c(1, -5, -20), 
                                                    upper_parameters  = c(6, 1, -10),
-                                                   niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                                   niter_ale = 2000, niter_epi = 2000, threshold = 1, 
                                                    percentile_ale = 95,
                                                    suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                                    suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -202,7 +202,7 @@ Now, let us consider the case of a high consumer child.
   upper_bound_high_consumer_child <- bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
                                                     lower_parameters  = c(1, -5, -20), 
                                                     upper_parameters  = c(6, 1, -10),
-                                                    niter_ale = 1000, niter_epi = 1000, threshold = 1, 
+                                                    niter_ale = 2000, niter_epi = 2000, threshold = 1, 
                                                     percentile_ale = 95,
                                                     suff_stat_concentration = data_assessment$log_concentration_ss_data,
                                                     suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -258,7 +258,7 @@ As an example: Let us assume that a decision maker wants to know if the
 frequency of exceeding the safety threshold is low. Let us set 0.05, as
 an acceptable level of frequency of exceeding.
 
-Thus, the decision maker is interested in \(P(h > 0.05)\) is low.
+Thus, the decision maker is interested in \[P(h > 0.05)\] is low.
 
 In the precise probability case, the probability that the frequency of
 exceeding the safety threshold of a random child exceeds the acceptable
@@ -304,5 +304,5 @@ upper_bound = val(index = index_upper, frequency_exceeding = upper_bound_random_
 lower_bound
 #> [1] 0
 upper_bound
-#> [1] 0.685
+#> [1] 0.6515
 ```
