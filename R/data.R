@@ -1,6 +1,8 @@
 #' Assessment data
 #'
-#' @source
+#' #@source
+#'
+#' @name data_assessment
 #'
 #'
 #' @format Data is given as a list with the following components:
@@ -26,9 +28,12 @@
 #'                    }
 #'}
 #'
+#'@export
+#'
+"data_assessment"
+# #'
 #' @examples
 #' \dontrun{
-#' data_assessment
-#'
+#'  data_assessment
 #' }
-"data_assessment"
+# "data_assessment"

@@ -32,8 +32,8 @@ This is a common type of scientific assessment where the assessment model contai
 
 You can install the development version of `ppvsbp` from [github](https://github.com/Iraices/PrecisePvsBoundedP) with:
 
-```{r}
-# remotes::install_github('Iraices/PrecisePvsBoundedP')
+``` r
+remotes::install_github('Iraices/PrecisePvsBoundedP')
 ```
 
 ## Example
@@ -44,18 +44,19 @@ First, let us estimate the frequency of exceeding the safety threshold for a ran
 ```{r}
 library(ppvsbp)
 ## basic example code
-TWI_pp_random_child <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
-                                  percentile_ale = NULL,
-                                  suff_stat_concentration = data_assessment$log_concentration_ss_data,
-                                  suff_stat_consumption = data_assessment$log_consumption_ss_data,
-                                  consumption_change_vals_EKE = data_assessment$change_cons$vals,
-                                  consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
-                                  consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-                                  concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
-                                  concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
-                                  consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
-                                  consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
-                                  consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+TWI_pp_random_child <- 
+  unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
+                          percentile_ale = NULL,
+                          suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                          suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                          consumption_change_vals_EKE = data_assessment$change_cons$vals,
+                          consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
+                          consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                          concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
+                          concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
+                          consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
+                          consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
+                          consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
 
 ## Expected frequency of exceeding the safety threshold
 TWI_pp_random_child$expected_frequency_exceeding
@@ -69,18 +70,19 @@ Second, let us estimate the frequency of exceeding the safety threshold for a hi
 `percentile_ale` has changed `percentile_ale = 95`.
 
 ```{r}
-  TWI_pp_high_consumer_child <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
-                                   percentile_ale = 95,
-                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
-                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
-                                   consumption_change_vals_EKE = data_assessment$change_cons$vals,
-                                   consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
-                                   consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-                                   concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
-                                   concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
-                                   consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
-                                   consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
-                                   consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+TWI_pp_high_consumer_child <- 
+  unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
+                          percentile_ale = 95,
+                          suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                          suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                          consumption_change_vals_EKE = data_assessment$change_cons$vals,
+                          consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
+                          consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                          concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
+                          concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
+                          consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
+                          consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
+                          consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
 
 ## Expected probability of exceeding the safety threshold
 TWI_pp_high_consumer_child$expected_frequency_exceeding
@@ -105,49 +107,51 @@ We can now visualize the results. Epistemic uncertainty has been characterized b
  graph_pp_both(frequency_exceeding_random_child = TWI_pp_random_child$frequency_exceeding, 
                frequency_exceeding_high_consumer_child = TWI_pp_high_consumer_child$frequency_exceeding)
 ```
+
 Now, let us estimate the frequency of exceeding the safety threshold by bounded probability derived by robust Bayesian analysis. 
 
 First, let us consider the case of a random child
 
 ```{r}
-  ## A random child
-  lower_bound_random_child <- bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
-                                            lower_parameters  = c(1, -5, -20), 
-                                            upper_parameters  = c(6, 1, -10),
-                                            niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,
-                                            suff_stat_concentration = data_assessment$log_concentration_ss_data,
-                                            suff_stat_consumption = data_assessment$log_consumption_ss_data,
-                                            consumption_change_vals_EKE = c(-15, 7.5), 
-                                            consumption_change_probs_EKE = c(0.25, 0.75),
-                                            consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-                                            concentration_mu0 = 2.75,
-                                            concentration_v0 = 5, concentration_alpha0 = 1, concentration_beta0 = 1, 
-                                            sufficient_statistics_concentration = TRUE,
-                                            consumption_mu0 = -2.5,
-                                            consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
-                                            sufficient_statistics_consumption = TRUE,
-                                            consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+## A random child
+lower_bound_random_child <- 
+  bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
+                               lower_parameters  = c(1, -5, -20), 
+                               upper_parameters  = c(6, 1, -10),
+                               niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,
+                               suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                               suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                               consumption_change_vals_EKE = c(-15, 7.5), 
+                               consumption_change_probs_EKE = c(0.25, 0.75),
+                               consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                               concentration_mu0 = 2.75,
+                               concentration_v0 = 5, concentration_alpha0 = 1, concentration_beta0 = 1, 
+                               sufficient_statistics_concentration = TRUE,
+                               consumption_mu0 = -2.5,
+                               consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
+                               sufficient_statistics_consumption = TRUE,
+                               consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
   
 
-  
-  ## A random child
-  upper_bound_random_child <- bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
-                                           lower_parameters  = c(1, -5, -20), 
-                                           upper_parameters  = c(6, 1, -10),
-                                           niter_ale = 2000, niter_epi = 2000, threshold = 1, 
-                                           percentile_ale = NULL,
-                                           suff_stat_concentration = data_assessment$log_concentration_ss_data,
-                                           suff_stat_consumption = data_assessment$log_consumption_ss_data,
-                                           consumption_change_vals_EKE = c(-15, 7.5), 
-                                           consumption_change_probs_EKE = c(0.25, 0.75),
-                                           consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-                                           concentration_mu0 = 2.75,
-                                           concentration_v0 = 5, concentration_alpha0 = 1, concentration_beta0 = 1, 
-                                           sufficient_statistics_concentration = TRUE,
-                                           consumption_mu0 = -2.5,
-                                           consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
-                                           sufficient_statistics_consumption = TRUE,
-                                           consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+## A random child
+upper_bound_random_child <- 
+  bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
+                               lower_parameters  = c(1, -5, -20), 
+                               upper_parameters  = c(6, 1, -10),
+                               niter_ale = 2000, niter_epi = 2000, threshold = 1, 
+                               percentile_ale = NULL,
+                               suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                               suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                               consumption_change_vals_EKE = c(-15, 7.5), 
+                               consumption_change_probs_EKE = c(0.25, 0.75),
+                               consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                               concentration_mu0 = 2.75,
+                               concentration_v0 = 5, concentration_alpha0 = 1, concentration_beta0 = 1, 
+                               sufficient_statistics_concentration = TRUE,
+                               consumption_mu0 = -2.5,
+                               consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
+                               sufficient_statistics_consumption = TRUE,
+                               consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
   
 ```
 
@@ -155,46 +159,48 @@ Now, let us consider the case of a high consumer child.
 
 ```{r}
   ## A high consumer child
-  lower_bound_high_consumer_child <- bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
-                                                   lower_parameters  = c(1, -5, -20), 
-                                                   upper_parameters  = c(6, 1, -10),
-                                                   niter_ale = 2000, niter_epi = 2000, threshold = 1, 
-                                                   percentile_ale = 95,
-                                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
-                                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
-                                                   consumption_change_vals_EKE = c(-15, 7.5), 
-                                                   consumption_change_probs_EKE = c(0.25, 0.75),
-                                                   consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-                                                   concentration_mu0 = 2.75,
-                                                   concentration_v0 = 5, concentration_alpha0 = 1, 
-                                                   concentration_beta0 = 1, 
-                                                   sufficient_statistics_concentration = TRUE,
-                                                   consumption_mu0 = -2.5,
-                                                   consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
-                                                   sufficient_statistics_consumption = TRUE,
-                                                   consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+  lower_bound_high_consumer_child <- 
+    bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE, 
+                                 lower_parameters  = c(1, -5, -20), 
+                                 upper_parameters  = c(6, 1, -10),
+                                 niter_ale = 2000, niter_epi = 2000, threshold = 1, 
+                                 percentile_ale = 95,
+                                 suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                                 suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                                 consumption_change_vals_EKE = c(-15, 7.5), 
+                                 consumption_change_probs_EKE = c(0.25, 0.75),
+                                 consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                                 concentration_mu0 = 2.75,
+                                 concentration_v0 = 5, concentration_alpha0 = 1, 
+                                 concentration_beta0 = 1, 
+                                 sufficient_statistics_concentration = TRUE,
+                                 consumption_mu0 = -2.5,
+                                 consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
+                                 sufficient_statistics_consumption = TRUE,
+                                 consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
   
   
   
-   ## A high consumer child
-  upper_bound_high_consumer_child <- bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
-                                                    lower_parameters  = c(1, -5, -20), 
-                                                    upper_parameters  = c(6, 1, -10),
-                                                    niter_ale = 2000, niter_epi = 2000, threshold = 1, 
-                                                    percentile_ale = 95,
-                                                    suff_stat_concentration = data_assessment$log_concentration_ss_data,
-                                                    suff_stat_consumption = data_assessment$log_consumption_ss_data,
-                                                    consumption_change_vals_EKE = c(-15, 7.5), 
-                                                    consumption_change_probs_EKE = c(0.25, 0.75),
-                                                    consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-                                                    concentration_mu0 = 2.75,
-                                                    concentration_v0 = 5, concentration_alpha0 = 1, 
-                                                    concentration_beta0 = 1, 
-                                                    sufficient_statistics_concentration = TRUE,
-                                                    consumption_mu0 = -2.5,
-                                                    consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
-                                                    sufficient_statistics_consumption = TRUE,
-                                                    consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+## A high consumer child
+upper_bound_high_consumer_child <- 
+    bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE, 
+                                 lower_parameters  = c(1, -5, -20), 
+                                 upper_parameters  = c(6, 1, -10),
+                                 niter_ale = 2000, niter_epi = 2000, threshold = 1, 
+                                 percentile_ale = 95,
+                                 suff_stat_concentration = data_assessment$log_concentration_ss_data,
+                                 suff_stat_consumption = data_assessment$log_consumption_ss_data,
+                                 consumption_change_vals_EKE = c(-15, 7.5), 
+                                 consumption_change_probs_EKE = c(0.25, 0.75),
+                                 consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+                                 concentration_mu0 = 2.75,
+                                 concentration_v0 = 5, concentration_alpha0 = 1, 
+                                 concentration_beta0 = 1, 
+                                 sufficient_statistics_concentration = TRUE,
+                                 consumption_mu0 = -2.5,
+                                 consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1, 
+                                 sufficient_statistics_consumption = TRUE,
+                                 consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
 ```
 
 In the case of bounded probability derived by robust Bayesian analysis, epistemic uncertainty has been characterized by a
@@ -204,22 +210,22 @@ Individual cases (a random child and a high consumer child)
 
 ```{r fig3, out.width = '70%'}
  ## All children
- graph_bp(lower_points = lower_bound_random_child$opt_freq$frequency_exceeding, 
-          upper_points = upper_bound_random_child$opt_freq$frequency_exceeding)
+graph_bp(lower_points = lower_bound_random_child$opt_freq$frequency_exceeding, 
+         upper_points = upper_bound_random_child$opt_freq$frequency_exceeding)
     
  ## A high consumer child
- graph_bp(lower_points = lower_bound_high_consumer_child$opt_freq$frequency_exceeding, 
-          upper_points = upper_bound_high_consumer_child$opt_freq$frequency_exceeding)
+graph_bp(lower_points = lower_bound_high_consumer_child$opt_freq$frequency_exceeding, 
+         upper_points = upper_bound_high_consumer_child$opt_freq$frequency_exceeding)
 ```
 
 Both cases together (a random child and a high consumer child)
 
 ```{r fig4, out.width = '70%'}  
  ## Both graphs
-  graph_bp_both(lower_points_random_child = lower_bound_random_child$opt_freq$frequency_exceeding, 
-                upper_points_random_child = upper_bound_random_child$opt_freq$frequency_exceeding,
-                lower_points_high_consumer_child = lower_bound_high_consumer_child$opt_freq$frequency_exceeding, 
-                upper_points_high_consumer_child = upper_bound_high_consumer_child$opt_freq$frequency_exceeding)
+graph_bp_both(lower_points_random_child = lower_bound_random_child$opt_freq$frequency_exceeding, 
+              upper_points_random_child = upper_bound_random_child$opt_freq$frequency_exceeding,
+              lower_points_high_consumer_child = lower_bound_high_consumer_child$opt_freq$frequency_exceeding, 
+              upper_points_high_consumer_child = upper_bound_high_consumer_child$opt_freq$frequency_exceeding)
 ```
 
 As an example:
@@ -250,11 +256,12 @@ prob = val(index = index, frequency_exceeding = TWI_pp_random_child$frequency_ex
 prob
 
 ```
+
 In the bounded probability case, the probability that the frequency of exceeding the safety threshold of a random child exceeds the acceptable level is
 
-$P(h >= 0.05) = 1 - P(h <= 0.05)$ 
+$$P(h >= 0.05) = 1 - P(h <= 0.05)$$ 
 
-$lower_bound  <= 1 - P(h <= 0.05)  <= upper_bound$ 
+$$lower\_bound  <= 1 - P(h <= 0.05)  <= upper\_bound$$ 
 
 ```{r}
 

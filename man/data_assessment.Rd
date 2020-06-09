@@ -28,19 +28,10 @@ Data is given as a list with the following components:
                    }
 }
 }
-\source{
-
-}
 \usage{
 data_assessment
 }
 \description{
-Assessment data
-}
-\examples{
-\dontrun{
-data_assessment
-
-}
+#@source
 }
 \keyword{datasets}

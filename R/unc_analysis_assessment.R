@@ -51,32 +51,41 @@
 #' @export
 #'
 #' @examples
-#''\dontrun{
-#' TWI_pp_random_child <- unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000, threshold = 1,
-#'                                   percentile_ale = NULL,
-#'                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
-#'                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
-#'                                   consumption_change_vals_EKE = data_assessment$change_cons$vals,
-#'                                   consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
-#'                                   consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-#'                                   concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
-#'                                   concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
-#'                                   consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
-#'                                   consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
-#'                                   consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
 #'\dontrun{
-#'  TWI_pp_high_consumer <- unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000, threshold = 1,
-#'                                   percentile_ale = 95,
-#'                                   suff_stat_concentration = data_assessment$log_concentration_ss_data,
-#'                                   suff_stat_consumption = data_assessment$log_consumption_ss_data,
-#'                                   consumption_change_vals_EKE = data_assessment$change_cons$vals,
-#'                                   consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
-#'                                   consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-#'                                   concentration_mu0 = 3.5, concentration_v0 = 5, concentration_alpha0 = 1,
-#'                                   concentration_beta0 = 1, sufficient_statistics_concentration = TRUE,
-#'                                   consumption_mu0 = -3, consumption_v0 = 5, consumption_alpha0 = 1,
-#'                                   consumption_beta0 = 1, sufficient_statistics_consumption = TRUE,
-#'                                   consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+#' TWI_pp_random_child <-
+#'   unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000,
+#'             threshold = 1, percentile_ale = NULL,
+#'             suff_stat_concentration = data_assessment$log_concentration_ss_data,
+#'             suff_stat_consumption = data_assessment$log_consumption_ss_data,
+#'             consumption_change_vals_EKE = data_assessment$change_cons$vals,
+#'             consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
+#'             consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+#'             concentration_mu0 = 3.5, concentration_v0 = 5,
+#'             concentration_alpha0 = 1, concentration_beta0 = 1,
+#'             sufficient_statistics_concentration = TRUE,
+#'             consumption_mu0 = -3, consumption_v0 = 5,
+#'             consumption_alpha0 = 1, consumption_beta0 = 1,
+#'             sufficient_statistics_consumption = TRUE,
+#'             consumption_event_alpha0 = 1,
+#'             consumption_event_beta0 = 1)
+#'}
+#'\dontrun{
+#' TWI_pp_high_consumer <-
+#'   unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000,
+#'              threshold = 1, percentile_ale = 95,
+#'              suff_stat_concentration = data_assessment$log_concentration_ss_data,
+#'              suff_stat_consumption = data_assessment$log_consumption_ss_data,
+#'              consumption_change_vals_EKE = data_assessment$change_cons$vals,
+#'              consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
+#'              consumers_info_sample_size = data_assessment$consumers_info_sample_size,
+#'              concentration_mu0 = 3.5, concentration_v0 = 5,
+#'              concentration_alpha0 = 1, concentration_beta0 = 1,
+#'              sufficient_statistics_concentration = TRUE,
+#'              consumption_mu0 = -3, consumption_v0 = 5,
+#'              consumption_alpha0 = 1, consumption_beta0 = 1,
+#'              sufficient_statistics_consumption = TRUE,
+#'              consumption_event_alpha0 = 1,
+#'              consumption_event_beta0 = 1)
 #'}
 unc_analysis_assessment <- function(niter_ale, niter_epi, threshold, percentile_ale,
                                     suff_stat_concentration, suff_stat_consumption,

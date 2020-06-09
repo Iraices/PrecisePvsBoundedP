@@ -2,6 +2,7 @@
 
 export(bound_frequency_exceeding_bp)
 export(combine_uncertainty)
+export(data_assessment)
 export(estimate_parameters_normal_dist_from_two_percentiles)
 export(generate_samples_normal_gamma)
 export(graph_bp)
