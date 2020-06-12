@@ -224,8 +224,7 @@ Both cases together (a random child and a high consumer child)
  ## Both graphs
 graph_bp_both(lower_points_random_child = lower_bound_random_child$opt_freq$frequency_exceeding, 
               upper_points_random_child = upper_bound_random_child$opt_freq$frequency_exceeding,
-              lower_points_high_consumer_child = lower_bound_high_consumer_child$opt_freq$frequency_exceeding, 
-              upper_points_high_consumer_child = upper_bound_high_consumer_child$opt_freq$frequency_exceeding)
+              lower_points_high_consumer_child = lower_bound_high_consumer_child$opt_freq$frequency_exceeding,               upper_points_high_consumer_child = upper_bound_high_consumer_child$opt_freq$frequency_exceeding)
 ```
 
 As an example:

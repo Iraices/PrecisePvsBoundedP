@@ -21,11 +21,12 @@ graph_pp <- function(frequency_exceeding){
   data_plot %>%
     ggplot(mapping = aes(y = frequency_exceeding_cdf,  x = frequency_exceeding)) +
     geom_line() +
-    xlim(0,1) +
+    xlim(0,0.5) +
     labs(
       title = "Uncertainty",
       x = "Frequency of exceeding TWI",
       y = "cdf") +
+    theme_bw() +
     theme(axis.title = element_text(size = 30), axis.text = element_text(size = 15))
 
 }

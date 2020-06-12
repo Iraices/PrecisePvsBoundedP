@@ -32,11 +32,12 @@ graph_pp_both <- function(frequency_exceeding_random_child, frequency_exceeding_
     geom_line() +
     scale_linetype_manual(values = c('solid', 'dashed'), labels = c('Random_child', 'High_consumer_child')) +
     guides(linetype = guide_legend("Cases")) +
-    xlim(0,1) +
+    xlim(0,0.5) +
     labs(
       title = "Uncertainty",
       x = "Frequency of exceeding TWI",
       y = "cdf") +
+    theme_bw() +
     theme(title = element_text(size = 15),
           axis.title = element_text(size = 15), axis.text = element_text(size = 15),
           legend.title = element_text(size = 15),

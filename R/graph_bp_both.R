@@ -62,7 +62,7 @@ graph_bp_both <- function(lower_points_random_child, upper_points_random_child,
   p <- data_plot %>%
     ggplot(aes(x = .data$values, y = .data$cdf, group = .data$bound, color = .data$bound, linetype = .data$bound)) +
     geom_line() +
-    xlim(0,1) +
+    xlim(0,0.5) +
     scale_linetype_manual(values = c('solid', 'solid', 'dashed', 'dashed'),
                           labels = c('Upper_random_child', 'Lower_random_child',
                                      'Upper_high_consumer_child','Lower_high_consumer_child'),
@@ -75,10 +75,11 @@ graph_bp_both <- function(lower_points_random_child, upper_points_random_child,
       title = "Uncertainty",
       x = "Frequency of exceeding TWI",
       y = "cdf") +
+    theme_bw() +
     theme(title = element_text(size = 15),
           axis.title = element_text(size = 15), axis.text = element_text(size = 15),
           legend.title = element_text(size = 15),
           legend.text = element_text(size = 15),
-          legend.position = c(0.7,0.18))
+          legend.position = c(0.8,0.18))
   p
 }
