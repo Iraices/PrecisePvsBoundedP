@@ -65,11 +65,11 @@ graph_bp_both <- function(lower_points_random_child, upper_points_random_child,
     xlim(0,1) +
     scale_linetype_manual(values = c('solid', 'solid', 'dashed', 'dashed'),
                           labels = c('Upper_random_child', 'Lower_random_child',
-                                     'Upper_high_consumer','Lower_high_consumer'),
+                                     'Upper_high_consumer_child','Lower_high_consumer_child'),
                           name = 'Bounds') +
     scale_color_manual(values = c('red', 'blue','red', 'blue'),
                        labels = c('Upper_random_child', 'Lower_random_child',
-                                  'Upper_high_consumer','Lower_high_consumer'),
+                                  'Upper_high_consumer_child','Lower_high_consumer_child'),
                        name = 'Bounds') +
     labs(
       title = "Uncertainty",
@@ -78,6 +78,7 @@ graph_bp_both <- function(lower_points_random_child, upper_points_random_child,
     theme(title = element_text(size = 15),
           axis.title = element_text(size = 15), axis.text = element_text(size = 15),
           legend.title = element_text(size = 15),
-          legend.text = element_text(size = 15))
+          legend.text = element_text(size = 15),
+          legend.position = c(0.7,0.1))
   p
 }

@@ -40,6 +40,7 @@ graph_pp_both <- function(frequency_exceeding_random_child, frequency_exceeding_
     theme(title = element_text(size = 15),
           axis.title = element_text(size = 15), axis.text = element_text(size = 15),
           legend.title = element_text(size = 15),
-          legend.text = element_text(size = 15))
+          legend.text = element_text(size = 15),
+          legend.position = c(0.8,0.12))
   p
 }

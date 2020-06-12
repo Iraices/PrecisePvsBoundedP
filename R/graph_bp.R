@@ -55,7 +55,8 @@ graph_bp <- function(lower_points, upper_points){
     theme(title = element_text(size = 15),
           axis.title = element_text(size = 15), axis.text = element_text(size = 15),
           legend.title = element_text(size = 15),
-          legend.text = element_text(size = 15))
+          legend.text = element_text(size = 15),
+          legend.position = c(0.9,0.12))
   p
 
 }
