@@ -79,6 +79,6 @@ graph_bp_both <- function(lower_points_random_child, upper_points_random_child,
           axis.title = element_text(size = 15), axis.text = element_text(size = 15),
           legend.title = element_text(size = 15),
           legend.text = element_text(size = 15),
-          legend.position = c(0.7,0.1))
+          legend.position = c(0.7,0.18))
   p
 }
