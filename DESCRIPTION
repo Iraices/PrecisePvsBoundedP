@@ -1,6 +1,6 @@
 Package: ppvsbp
-Title: A Comparison Between Precise And Bounded Probability To
-    Quantify Epistemic Uncertainty In A Scientific Assessment
+Title: A suggestion for the quantification of precise and bounded probability
+       to express epistemic uncertainty in scientific assessments
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Ivette",
@@ -15,9 +15,9 @@ Authors@R:
              family = "Sahlin",
              role = c("aut", "ctb"),
              email = "ullrika.sahlin@cec.lu.se"))
-Description: Code for paper: A comparison between precise and
-    bounded probability to quantify epistemic uncertainty in a scientific
-    assessment.
+Description: Code for paper: A suggestion for the quantification of precise 
+              and bounded probability to express epistemic uncertainty 
+              in scientific assessments
 License: GPL-3
 URL: https://github.com/Iraices/PrecisePvsBoundedP
 BugReports: https://github.com/Iraices/PrecisePvsBoundedP/issues

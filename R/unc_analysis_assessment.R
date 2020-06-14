@@ -7,7 +7,7 @@
 #' @param niter_epi    number of generated parameters from the posterior distrbutions
 #'                     (it indicates the number of repetitions the assessment will be done)
 #' @param threshold    safety threshold
-#' @param percentile_ale a value that indicates if the assessment is done on a random child by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}
+#' @param percentile_ale a value that indicates if the assessment is done on an average child  by 'Average' or on a high consumer child by 95. Default is \code{NULL}
 #'
 #' @param suff_stat_concentration       a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 #'                                      corresponding to concentration. If sufficient_statistics_concentration =  \code{FALSE},
@@ -54,7 +54,7 @@
 #'\dontrun{
 #' TWI_pp_random_child <-
 #'   unc_analysis_assessment(niter_ale = 1000, niter_epi = 1000,
-#'             threshold = 1, percentile_ale = NULL,
+#'             threshold = 1, percentile_ale = 'Average',
 #'             suff_stat_concentration = data_assessment$log_concentration_ss_data,
 #'             suff_stat_consumption = data_assessment$log_consumption_ss_data,
 #'             consumption_change_vals_EKE = data_assessment$change_cons$vals,

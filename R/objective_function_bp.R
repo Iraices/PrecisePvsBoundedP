@@ -10,7 +10,7 @@
 #' @param niter_epi                           number of generated parameters from the posterior distrbutions
 #'                                            (it indicates the number of repetitions the assessment will be done)
 #' @param threshold                           safety threshold
-#' @param percentile_ale                      a value that indicates if the assessment is done on a random child  by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}
+#' @param percentile_ale                      a value that indicates if the assessment is done on an average child  by 'Average' or on a high consumer child by 95. Default is \code{NULL}
 #' @param suff_stat_concentration             a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 #'                                            corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
 #'                                            then it is vector of observed data
