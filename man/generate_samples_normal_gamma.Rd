@@ -5,15 +5,13 @@
 \title{Generate samples from a log_normal distribution using the
 parameters from the posterior distribution}
 \usage{
-generate_samples_normal_gamma(niter_ale, post, percentile_ale = NULL)
+generate_samples_normal_gamma(niter_ale, post)
 }
 \arguments{
 \item{niter_ale}{number of generated samples}
 
 \item{post}{the output of update_normal_gamma function. Post is a list with the prior and posterior hyperparameters of the Normal-Gamma distribution.
 Prior and posterior are also list with hyperparameters \emph{mu, v, alpha} and \emph{beta}.}
-
-\item{percentile_ale}{a value that indicates if the assessment is done on a random child  by \code{NULL} (default) or on a high consumer child by 95.}
 }
 \value{
 gen_sample      A vector with the generated samples
@@ -26,6 +24,6 @@ given the posterior hyperparameters of the normal-gamma distribution
 dta <- rnorm(100)
 post <- update_normal_gamma(suff_stat_data = dta, mu0 = 0, v0 = 5,
     alpha0 = 1, beta0 = 1, sufficient_statistics = FALSE)
-generate_samples_normal_gamma(niter_ale = 1000, post, percentile_ale = NULL)
+generate_samples_normal_gamma(niter_ale = 1000, post)
 
 }

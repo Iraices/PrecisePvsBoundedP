@@ -5,19 +5,19 @@
 \title{Graph both - Precise probability}
 \usage{
 graph_pp_both(
-  frequency_exceeding_random_child,
-  frequency_exceeding_high_consumer_child
+  frequency_exceeding_average_consumption,
+  frequency_exceeding_high_consumption
 )
 }
 \arguments{
-\item{frequency_exceeding_random_child}{A vector of frequency of exceeding corresponding to a random child}
+\item{frequency_exceeding_average_consumption}{A vector of frequency of exceeding corresponding to average consumption}
 
-\item{frequency_exceeding_high_consumer_child}{A vector of frequency of exceeding corresponding to a high consumer child}
+\item{frequency_exceeding_high_consumption}{A vector of frequency of exceeding corresponding to high consumption}
 }
 \value{
 a plot
 }
 \description{
-Plot two cumulative distribution functions: a random child  and a high consumer child.
-frequency_exceeding_random_child and frequency_exceeding_high_consumer must have the same length
+Plot two cumulative distribution functions: average consumption and high consumption
+frequency_exceeding_average_consumption and frequency_exceeding_high_consumption must have the same length
 }

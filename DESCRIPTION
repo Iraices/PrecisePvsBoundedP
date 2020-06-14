@@ -1,6 +1,7 @@
 Package: ppvsbp
-Title: A suggestion for the quantification of precise and bounded probability
-       to express epistemic uncertainty in scientific assessments
+Title: A suggestion for the quantification of precise 
+       and bounded probability to express epistemic 
+       uncertainty in scientific assessments
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Ivette",
@@ -17,7 +18,7 @@ Authors@R:
              email = "ullrika.sahlin@cec.lu.se"))
 Description: Code for paper: A suggestion for the quantification of precise 
               and bounded probability to express epistemic uncertainty 
-              in scientific assessments
+              in scientific assessments.
 License: GPL-3
 URL: https://github.com/Iraices/PrecisePvsBoundedP
 BugReports: https://github.com/Iraices/PrecisePvsBoundedP/issues

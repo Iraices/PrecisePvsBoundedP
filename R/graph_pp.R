@@ -21,7 +21,7 @@ graph_pp <- function(frequency_exceeding){
   data_plot %>%
     ggplot(mapping = aes(y = frequency_exceeding_cdf,  x = frequency_exceeding)) +
     geom_line() +
-    xlim(0,0.5) +
+    xlim(0,1) +
     labs(
       title = "Uncertainty",
       x = "Frequency of exceeding TWI",

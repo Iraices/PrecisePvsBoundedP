@@ -13,7 +13,7 @@ bound_frequency_exceeding_bp(
   niter_ale = 1000,
   niter_epi = 1000,
   threshold = 1,
-  percentile_ale = NULL,
+  exposure_scenario = "av",
   suff_stat_concentration,
   suff_stat_consumption,
   consumption_change_vals_EKE = c(-15, 7.5),
@@ -30,7 +30,8 @@ bound_frequency_exceeding_bp(
   consumption_beta0 = 1,
   sufficient_statistics_consumption = TRUE,
   consumption_event_alpha0 = 1,
-  consumption_event_beta0 = 1
+  consumption_event_beta0 = 1,
+  percentile = NULL
 )
 }
 \arguments{
@@ -49,7 +50,7 @@ bound_frequency_exceeding_bp(
 
 \item{threshold}{safety threshold}
 
-\item{percentile_ale}{a value that indicates if the assessment is done on a random child  by \code{NULL} or on a high consumer child by 95. Default is NULL}
+\item{exposure_scenario}{a value that indicates if the assessment is done on average consumption scenario  by 'av' or on high consumption scenario by 'perc_95'. Default is 'av'}
 
 \item{suff_stat_concentration}{a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
@@ -92,6 +93,9 @@ sufficient_statistics_consumption is given as observed data. Default is \code{TR
 \item{consumption_event_alpha0}{prior hyperparameter \emph{alpha0} for the beta distribution corresponding to consumption event}
 
 \item{consumption_event_beta0}{prior hyperparameter \emph{beta0} for the beta distribution corresponding to consumption event}
+
+\item{percentile}{a value between 1 and 100 which indicates a percentile. By default
+is NULL}
 }
 \value{
 ## Two lists
@@ -124,11 +128,11 @@ is implemented in the 'nmkb' function from the {dfoptim} package.
 }
 \examples{
 \dontrun{
-lower_bound_random_child <-
+lower_bound_average_consumption <-
   bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE,
            lower_parameters  = c(1, -5, -20),
            upper_parameters  = c(6, 1, -10),
-           niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,
+           niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'av',
            suff_stat_concentration = data_assessment$log_concentration_ss_data,
            suff_stat_consumption = data_assessment$log_consumption_ss_data,
            consumption_change_vals_EKE = c(-15, 7.5),
@@ -140,13 +144,13 @@ lower_bound_random_child <-
            consumption_mu0 = -2.5,
            consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1,
            sufficient_statistics_consumption = TRUE,
-           consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+           consumption_event_alpha0 = 1, consumption_event_beta0 = 1, percentile = NULL)
 
-upper_bound_random_child <-
+upper_bound_average_consumption <-
  bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
            lower_parameters  = c(1, -5, -20),
            upper_parameters  = c(6, 1, -10),
-           niter_ale = 2000, niter_epi = 2000, threshold = 1, percentile_ale = NULL,
+           niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'av',
            suff_stat_concentration = data_assessment$log_concentration_ss_data,
            suff_stat_consumption = data_assessment$log_consumption_ss_data,
            consumption_change_vals_EKE = c(-15, 7.5),
@@ -158,7 +162,7 @@ upper_bound_random_child <-
            consumption_mu0 = -2.5,
            consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1,
            sufficient_statistics_consumption = TRUE,
-           consumption_event_alpha0 = 1, consumption_event_beta0 = 1)
+           consumption_event_alpha0 = 1, consumption_event_beta0 = 1, percentile = NULL)
 
 }
 

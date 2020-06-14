@@ -8,7 +8,7 @@ unc_analysis_assessment_bp(
   niter_ale,
   niter_epi,
   threshold,
-  percentile_ale,
+  exposure_scenario,
   suff_stat_concentration,
   suff_stat_consumption,
   consumption_change_vals_EKE,
@@ -36,7 +36,7 @@ unc_analysis_assessment_bp(
 
 \item{threshold}{safety threshold}
 
-\item{percentile_ale}{a value that indicates if the assessment is done on a random child by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}}
+\item{exposure_scenario}{a value that indicates if the assessment is done an average consumption scenario by 'av' or on a high consumption scenario by 'perc_95'. Default is \code{NULL}}
 
 \item{suff_stat_concentration}{a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},

@@ -9,7 +9,7 @@
 #' @param niter_epi                     number of generated parameters from the posterior distrbutions
 #'                                      (it indicates the number of repetitions the assessment will be done)
 #' @param threshold                     safety threshold
-#' @param percentile_ale                a value that indicates if the assessment is done an average child  by 'Average' or on a high consumer child by 95. Default is \code{NULL}
+#' @param exposure_scenario             a value that indicates if the assessment is done an average consumption scenario by 'av' or on a high consumption scenario by 'perc_95'. Default is \code{NULL}
 #' @param suff_stat_concentration       a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 #'                                      corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
 #'                                      then it is vector of observed data
@@ -50,7 +50,7 @@
 #'
 #'
 unc_analysis_assessment_bp <- function(niter_ale, niter_epi,
-                                       threshold, percentile_ale,
+                                       threshold, exposure_scenario,
                                        suff_stat_concentration, suff_stat_consumption,
                                        consumption_change_vals_EKE,
                                        consumption_change_probs_EKE,
@@ -64,13 +64,8 @@ unc_analysis_assessment_bp <- function(niter_ale, niter_epi,
   nr_products <-  length(suff_stat_concentration)
   prob_consumption_event <- parameters_consumption <- parameters_concentration <- vector('list', nr_products)
 
-  # Probability of a child i consumes chocolate product k
   param_consumption_event <-  lapply(consumers_info_sample_size, update_bernoulli_beta, alpha0 = consumption_event_alpha0, beta0 = consumption_event_beta0)
 
-  for(k in 1:nr_products){
-    prob_consumption_event[[k]] <-  rbeta(1,shape1 = param_consumption_event[[k]]$param$posterior$alpha,
-                                          shape2 = param_consumption_event[[k]]$param$posterior$beta)
-  }
 
   frequency_exceeding <- rep(0, niter_epi)
 
@@ -87,28 +82,42 @@ unc_analysis_assessment_bp <- function(niter_ale, niter_epi,
     parameters_consumption[[j]] <-  post_consumption[[j]]$param
   }
 
+
   fit_normal_dist_EKE <- estimate_parameters_normal_dist_from_two_percentiles(vals = consumption_change_vals_EKE,
                                                                               probs = consumption_change_probs_EKE)
 
   for(i in 1:niter_epi){
 
-    gen_data_concentration <-  lapply(post_concentration, generate_samples_normal_gamma, niter_ale = niter_ale, percentile_ale = NULL)
+    gen_data_EKE = rnorm(1, mean =  fit_normal_dist_EKE[[1]], sd =  fit_normal_dist_EKE[[2]])
 
-    gen_data_consumption_prime <-  lapply(post_consumption, generate_samples_normal_gamma, niter_ale = niter_ale, percentile_ale = percentile_ale)
+    gen_data_concentration <-  lapply(post_concentration, generate_samples_normal_gamma, niter_ale = niter_ale)
+
+    gen_data_consumption_prime <-  lapply(post_consumption, generate_samples_normal_gamma, niter_ale = niter_ale)
 
     gen_data_consumption <- gen_data_consumption_prime
 
-    gen_data_EKE = rnorm(1, mean =  fit_normal_dist_EKE[[1]], sd =  fit_normal_dist_EKE[[2]])
-
     for(k in 1:nr_products){
 
+      prob_consumption_event[[k]] <-  rbeta(1,shape1 = param_consumption_event[[k]]$param$posterior$alpha,
+                                            shape2 = param_consumption_event[[k]]$param$posterior$beta)
+
       gen_data_consumption[[k]]$gen_sample  <- gen_data_consumption_prime[[k]]$gen_sample * rbinom(n = niter_ale, size = 1, prob = prob_consumption_event[[k]])
+
+
+      if(exposure_scenario == 'perc_95'){
+        gen_data_consumption[[k]]$gen_sample <- rep(quantile(gen_data_consumption[[k]]$gen_sample, probs = 0.95), niter_ale)
+
+      }
+      else{
+        gen_data_consumption[[k]]$gen_sample <- rep(mean(gen_data_consumption[[k]]$gen_sample), niter_ale)
+      }
     }
 
     frequency_exceeding[[i]] <- combine_uncertainty(gen_data_concentration =  gen_data_concentration, gen_data_consumption = gen_data_consumption,
-                                            gen_data_EKE = gen_data_EKE, threshold =  threshold, niter_ale = niter_ale)
+                                                    gen_data_EKE = gen_data_EKE, threshold =  threshold, niter_ale = niter_ale)
 
   }
+
 
   expected_frequency_exceeding <- mean(frequency_exceeding)
   hdi_frequency_exceeding <- hdi(frequency_exceeding, credMass = 0.95) # Highest (Posterior) Density Interval

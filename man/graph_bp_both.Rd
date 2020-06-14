@@ -5,20 +5,20 @@
 \title{Graph both - Bounded probability}
 \usage{
 graph_bp_both(
-  lower_points_random_child,
-  upper_points_random_child,
-  lower_points_high_consumer_child,
-  upper_points_high_consumer_child
+  lower_points_average_consumption,
+  upper_points_average_consumption,
+  lower_points_high_consumption,
+  upper_points_high_consumption
 )
 }
 \arguments{
-\item{lower_points_random_child}{A vector with the lower cdf sequence corresponding to a random child}
+\item{lower_points_average_consumption}{A vector with the lower cdf sequence corresponding to average consumption scenario}
 
-\item{upper_points_random_child}{A vector with the upper cdf sequence corresponding to a random child}
+\item{upper_points_average_consumption}{A vector with the upper cdf sequence corresponding to average consumption scenario}
 
-\item{lower_points_high_consumer_child}{A vector with the lower cdf sequence corresponding to a high consumer child}
+\item{lower_points_high_consumption}{A vector with the lower cdf sequence corresponding to high consumption scenario}
 
-\item{upper_points_high_consumer_child}{A vector with the upper cdf sequence corresponding to a high consumer child}
+\item{upper_points_high_consumption}{A vector with the upper cdf sequence corresponding to high consumption scenario}
 }
 \value{
 a plot

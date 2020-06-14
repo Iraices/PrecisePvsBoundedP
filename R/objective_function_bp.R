@@ -10,7 +10,7 @@
 #' @param niter_epi                           number of generated parameters from the posterior distrbutions
 #'                                            (it indicates the number of repetitions the assessment will be done)
 #' @param threshold                           safety threshold
-#' @param percentile_ale                      a value that indicates if the assessment is done on an average child  by 'Average' or on a high consumer child by 95. Default is \code{NULL}
+#' @param exposure_scenario                   a value that indicates if the assessment is done on an average consumption scenario by 'av' or on a high consumption scenario by 'perc_95'. Default is 'av'
 #' @param suff_stat_concentration             a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 #'                                            corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
 #'                                            then it is vector of observed data
@@ -34,14 +34,15 @@
 #'                                            sufficient_statistics_consumption is given as observed data. Default is \code{TRUE}
 #' @param consumption_event_alpha0            prior hyperparameter \emph{alpha0} for the beta distribution corresponding to consumption event
 #' @param consumption_event_beta0             prior hyperparameter \emph{beta0} for the beta distribution corresponding to consumption event
-
+#' @param percentile                          a value between 1 and 100 which indicates a percentile. By default
+#'                                            is NULL
 #'
 #' @return
 #' expected_frequency_exceeding               the expected value of the frequency of exceeding the threshold
 #'
 #' @export
 #'
-obj_func_bp <- function(parameters, niter_ale, niter_epi, threshold, percentile_ale,
+obj_func_bp <- function(parameters, niter_ale, niter_epi, threshold, exposure_scenario,
                         suff_stat_concentration, suff_stat_consumption,
                         consumption_change_vals_EKE, consumption_change_probs_EKE ,
                         consumers_info_sample_size, concentration_v0,
@@ -49,7 +50,7 @@ obj_func_bp <- function(parameters, niter_ale, niter_epi, threshold, percentile_
                         sufficient_statistics_concentration,
                         consumption_v0, consumption_alpha0, consumption_beta0,
                         sufficient_statistics_consumption,
-                        consumption_event_alpha0, consumption_event_beta0){
+                        consumption_event_alpha0, consumption_event_beta0, percentile = NULL){
 
   concentration_mu0 <- parameters[1]
   consumption_mu0 <- parameters[2]
@@ -57,7 +58,7 @@ obj_func_bp <- function(parameters, niter_ale, niter_epi, threshold, percentile_
 
 
   out <- unc_analysis_assessment_bp(niter_ale = niter_ale, niter_epi= niter_epi,
-                                    threshold = threshold, percentile_ale = percentile_ale,
+                                    threshold = threshold, exposure_scenario = exposure_scenario,
                                     suff_stat_concentration = suff_stat_concentration,
                                     suff_stat_consumption = suff_stat_consumption,
                                     consumption_change_vals_EKE = consumption_change_vals_EKE,
@@ -71,7 +72,14 @@ obj_func_bp <- function(parameters, niter_ale, niter_epi, threshold, percentile_
                                     sufficient_statistics_consumption = sufficient_statistics_consumption,
                                     consumption_event_alpha0 = consumption_event_alpha0, consumption_event_beta0 = consumption_event_beta0)
 
-  output <- out$expected_frequency_exceeding
+  if(is.null(percentile)){
+    output <- out$expected_frequency_exceeding
+
+  }
+  else{
+    output <- quantile(out$frequency_exceeding, probs = percentile/100)
+
+  }
 
   return(output)
 }

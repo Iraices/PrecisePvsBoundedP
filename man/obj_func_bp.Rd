@@ -9,7 +9,7 @@ obj_func_bp(
   niter_ale,
   niter_epi,
   threshold,
-  percentile_ale,
+  exposure_scenario,
   suff_stat_concentration,
   suff_stat_consumption,
   consumption_change_vals_EKE,
@@ -24,7 +24,8 @@ obj_func_bp(
   consumption_beta0,
   sufficient_statistics_consumption,
   consumption_event_alpha0,
-  consumption_event_beta0
+  consumption_event_beta0,
+  percentile = NULL
 )
 }
 \arguments{
@@ -37,7 +38,7 @@ obj_func_bp(
 
 \item{threshold}{safety threshold}
 
-\item{percentile_ale}{a value that indicates if the assessment is done on a random child  by \code{NULL} or on a high consumer child by 95. Default is \code{NULL}}
+\item{exposure_scenario}{a value that indicates if the assessment is done on an average consumption scenario by 'av' or on a high consumption scenario by 'perc_95'. Default is 'av'}
 
 \item{suff_stat_concentration}{a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
@@ -76,6 +77,9 @@ sufficient_statistics_consumption is given as observed data. Default is \code{TR
 \item{consumption_event_alpha0}{prior hyperparameter \emph{alpha0} for the beta distribution corresponding to consumption event}
 
 \item{consumption_event_beta0}{prior hyperparameter \emph{beta0} for the beta distribution corresponding to consumption event}
+
+\item{percentile}{a value between 1 and 100 which indicates a percentile. By default
+is NULL}
 }
 \value{
 expected_frequency_exceeding               the expected value of the frequency of exceeding the threshold

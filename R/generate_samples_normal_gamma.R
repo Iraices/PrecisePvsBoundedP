@@ -7,7 +7,6 @@
 #' @param niter_ale  number of generated samples
 #' @param post the output of update_normal_gamma function. Post is a list with the prior and posterior hyperparameters of the Normal-Gamma distribution.
 #'             Prior and posterior are also list with hyperparameters \emph{mu, v, alpha} and \emph{beta}.
-#' @param percentile_ale a value that indicates if the assessment is done on an average child  by 'Average' (default) or on a high consumer child by 95.
 #'
 #'
 #' @return
@@ -21,21 +20,16 @@
 #' dta <- rnorm(100)
 #' post <- update_normal_gamma(suff_stat_data = dta, mu0 = 0, v0 = 5,
 #'     alpha0 = 1, beta0 = 1, sufficient_statistics = FALSE)
-#'generate_samples_normal_gamma(niter_ale = 1000, post, percentile_ale = 'Average')
+#'generate_samples_normal_gamma(niter_ale = 1000, post)
 #'
-generate_samples_normal_gamma <- function(niter_ale, post, percentile_ale = 'Average'){
+generate_samples_normal_gamma <- function(niter_ale, post){
 
   precision <- rgamma(1, shape = post$param$posterior$alpha, rate = post$param$posterior$beta)  # precision
   sigma_n <- (1/sqrt(precision))  # standard deviation
   mu <- rnorm(1,post$param$posterior$mu, sigma_n / sqrt(post$param$posterior$v))
-  if(percentile_ale == 'Average'){
-    #gen_sample <- rlnorm(niter_ale, meanlog = mu, sdlog = sigma_n)
-    sample_mean <- exp(mu + ((sigma_n)^2)/2)
-    gen_sample <- rep(sample_mean, niter = niter)
-  }
-  else{
-    gen_sample <- rep(qlnorm(percentile_ale/100, meanlog = mu, sdlog = sigma_n), niter_ale)
-  }
+
+
+  gen_sample <- rlnorm(niter_ale, meanlog = mu, sdlog = sigma_n)
 
   output <- list(gen_sample = gen_sample)
 
