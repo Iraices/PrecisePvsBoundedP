@@ -44,7 +44,7 @@ First, let us estimate the frequency of exceeding the safety threshold for an av
 library(ppvsbp)
 ## Average consumption scenario
 TWI_pp_average_consumption <-
-   unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000,
+   unc_analysis_assessment(niter_ale = 10000, niter_epi = 10000,
              threshold = 1, exposure_scenario = 'av',
              suff_stat_concentration = data_assessment$log_concentration_ss_data,
              suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -74,7 +74,7 @@ Second, let us estimate the frequency of exceeding the safety threshold for a hi
 ```{r}
 ## High consumption scenario
  TWI_pp_high_consumption <-
-   unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000,
+   unc_analysis_assessment(niter_ale = 10000, niter_epi = 10000,
               threshold = 1, exposure_scenario = 'perc_95',
               suff_stat_concentration = data_assessment$log_concentration_ss_data,
               suff_stat_consumption = data_assessment$log_consumption_ss_data,
@@ -124,7 +124,7 @@ lower_bound_average_consumption <-
     bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE,
        lower_parameters  = c(1, -5, -20),
        upper_parameters  = c(6, 1, -10),
-       niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'av',
+       niter_ale = 5000, niter_epi = 5000, threshold = 1, exposure_scenario = 'av',
        suff_stat_concentration = data_assessment$log_concentration_ss_data,
        suff_stat_consumption = data_assessment$log_consumption_ss_data,
        consumption_change_vals_EKE = c(-15, 7.5),
@@ -144,7 +144,7 @@ upper_bound_average_consumption <-
    bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
        lower_parameters  = c(1, -5, -20),
        upper_parameters  = c(6, 1, -10),
-       niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'av',
+       niter_ale = 5000, niter_epi = 5000, threshold = 1, exposure_scenario = 'av',
        suff_stat_concentration = data_assessment$log_concentration_ss_data,
        suff_stat_consumption = data_assessment$log_consumption_ss_data,
        consumption_change_vals_EKE = c(-15, 7.5),
@@ -168,7 +168,7 @@ Now, let us consider the case of high consumption
     bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE,
        lower_parameters  = c(1, -5, -20),
        upper_parameters  = c(6, 1, -10),
-       niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'perc_95',
+       niter_ale = 5000, niter_epi = 5000, threshold = 1, exposure_scenario = 'perc_95',
        suff_stat_concentration = data_assessment$log_concentration_ss_data,
        suff_stat_consumption = data_assessment$log_consumption_ss_data,
        consumption_change_vals_EKE = c(-15, 7.5),
@@ -189,7 +189,7 @@ upper_bound_high_consumption <-
     bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
        lower_parameters  = c(1, -5, -20),
        upper_parameters  = c(6, 1, -10),
-       niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'perc_95',
+       niter_ale = 5000, niter_epi = 5000, threshold = 1, exposure_scenario = 'perc_95',
        suff_stat_concentration = data_assessment$log_concentration_ss_data,
        suff_stat_consumption = data_assessment$log_consumption_ss_data,
        consumption_change_vals_EKE = c(-15, 7.5),
