@@ -141,7 +141,7 @@ lower_bound_average_consumption <-
 
 ## Average consumption scenario
 upper_bound_average_consumption <- 
-   bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE,
+   bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
        lower_parameters  = c(1, -5, -20),
        upper_parameters  = c(6, 1, -10),
        niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'av',
@@ -224,7 +224,8 @@ Both cases together (average consumption and high consumption)
 
 ```{r fig4, out.width = '70%'}  
  ## Both scenarios
-graph_bp_both(lower_points_average_consumption = lower_bound_average_consumption$opt_freq$frequency_exceeding, 
-              upper_points_average_consumption = upper_bound_average_consumption$opt_freq$frequency_exceeding,
-              lower_points_high_consumption = lower_bound_high_consumption$opt_freq$frequency_exceeding,               upper_points_high_consumption = upper_bound_high_consumption$opt_freq$frequency_exceeding)
+graph_bp_both(lower_points_average_consumption =                lower_bound_average_consumption$opt_freq$frequency_exceeding, 
+             upper_points_average_consumption = upper_bound_average_consumption$opt_freq$frequency_exceeding,
+              lower_points_high_consumption = lower_bound_high_consumption$opt_freq$frequency_exceeding,                      upper_points_high_consumption = 
+                upper_bound_high_consumption$opt_freq$frequency_exceeding)
 ```
