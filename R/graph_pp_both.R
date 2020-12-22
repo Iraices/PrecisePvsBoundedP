@@ -30,19 +30,19 @@ graph_pp_both <- function(frequency_exceeding_average_consumption,
 
   p <- data_plot_long %>%
     ggplot(aes(x = .data$values, y = .data$frequency_exceeding_cdf, group = .data$group, linetype = .data$group)) +
-    geom_line() +
+    geom_line(size = 0.75) +
     scale_linetype_manual(values = c('solid', 'dashed'), labels = c('Average_consumption', 'High_consumption')) +
     guides(linetype = guide_legend("Scenarios")) +
     xlim(0,1) +
     labs(
-      title = "Uncertainty",
+      title = "",
       x = "Frequency of exceeding TWI",
       y = "cdf") +
     theme_bw() +
     theme(title = element_text(size = 15),
-          axis.title = element_text(size = 15), axis.text = element_text(size = 15),
-          legend.title = element_text(size = 15),
-          legend.text = element_text(size = 15),
-          legend.position = c(0.8,0.2))
+          axis.title = element_text(size = 10), axis.text = element_text(size = 10),
+          legend.title = element_text(size = 10),
+          legend.text = element_text(size = 10),
+          legend.position = c(0.7,0.2))
   p
 }

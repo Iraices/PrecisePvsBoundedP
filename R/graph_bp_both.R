@@ -61,25 +61,26 @@ graph_bp_both <- function(lower_points_average_consumption, upper_points_average
 
   p <- data_plot %>%
     ggplot(aes(x = .data$values, y = .data$cdf, group = .data$bound, color = .data$bound, linetype = .data$bound)) +
-    geom_line() +
+    geom_line(size=0.75, aes(color = .data$bound))  +
     xlim(0,1) +
     scale_linetype_manual(values = c('solid', 'solid', 'dashed', 'dashed'),
                           labels = c('Upper_average_consumption', 'Lower_average_child',
                                      'Upper_high_consumption','Lower_high_consumption'),
                           name = 'Bounds') +
-    scale_color_manual(values = c('black', 'black','black', 'black'),
+    scale_color_manual(values = c('red', 'blue','red', 'blue'),
                        labels = c('Upper_average_consumption', 'Lower_average_consumption',
                                   'Upper_high_consumption','Lower_high_consumption'),
                        name = 'Bounds') +
     labs(
-      title = "Uncertainty",
+      title = "",
       x = "Frequency of exceeding TWI",
       y = "cdf") +
     theme_bw() +
     theme(title = element_text(size = 15),
-          axis.title = element_text(size = 15), axis.text = element_text(size = 15),
-          legend.title = element_text(size = 15),
-          legend.text = element_text(size = 15),
+          axis.title = element_text(size = 10), axis.text = element_text(size = 10),
+          legend.title = element_text(size = 10),
+          legend.text = element_text(size = 10),
           legend.position = "none")
+          #legend.position = c(0.8,0.2))
   p
 }

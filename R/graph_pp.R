@@ -23,10 +23,10 @@ graph_pp <- function(frequency_exceeding){
     geom_line() +
     xlim(0,1) +
     labs(
-      title = "Uncertainty",
+      title = "",
       x = "Frequency of exceeding TWI",
       y = "cdf") +
     theme_bw() +
-    theme(axis.title = element_text(size = 30), axis.text = element_text(size = 15))
+    theme(axis.title = element_text(size = 15), axis.text = element_text(size = 20))
 
 }

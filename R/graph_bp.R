@@ -49,14 +49,14 @@ graph_bp <- function(lower_points, upper_points){
     guides(color = guide_legend("Bounds")) +
     xlim(0,1) +
     labs(
-      title = "Uncertainty",
+      title = "",
       x = "Frequency of exceeding TWI",
       y = "cdf") +
     theme_bw() +
     theme(title = element_text(size = 15),
-          axis.title = element_text(size = 15), axis.text = element_text(size = 15),
-          legend.title = element_text(size = 15),
-          legend.text = element_text(size = 15),
+          axis.title = element_text(size = 20), axis.text = element_text(size = 20),
+          legend.title = element_text(size = 20),
+          legend.text = element_text(size = 20),
           legend.position = c(0.9,0.12))
   p
 
