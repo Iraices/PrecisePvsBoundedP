@@ -20,7 +20,7 @@ combine_uncertainty <- function(gen_data_concentration, gen_data_consumption,
   gen_data_concentration <- matrix(unlist(gen_data_concentration), ncol = 7, nrow = niter_ale)
   gen_data_consumption <- matrix(unlist(gen_data_consumption), ncol = 7, nrow = niter_ale)
 
-  weekly_intake <- rowSums((1 + (gen_data_EKE/ 100) )* (gen_data_consumption * 0.007) * gen_data_concentration)
+  weekly_intake <- rowSums((1 + (gen_data_EKE/ 100) )* (gen_data_consumption * 0.001) * gen_data_concentration)
 
   frequency_exceeding_wi <- mean(weekly_intake > threshold)
 

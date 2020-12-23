@@ -206,7 +206,7 @@ upper_bound_high_consumption <-
 ```
 
 In the case of bounded probability derived by robust Bayesian analysis, epistemic uncertainty has been characterized by a
-probabilty box. The results of both cases can be visualized individualy or together.
+probability box. The results of both cases can be visualized individualy or together.
 
 Individual cases (average consumption and high consumption)
 

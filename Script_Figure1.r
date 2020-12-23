@@ -79,24 +79,23 @@ df_ale_pred <- sample_param_df_2  %>%
 
 ## Plot 2D distribution and posterior predictive distribution
 ggplot() +
-  geom_line(data = df_ale, mapping = aes(group = grp, x=vals, y=qs), size =  0.4, alpha = 0.2, color = "grey30", show.legend = FALSE) +
-  geom_line(data = df_ale %>% filter(grp == 1), aes(x = vals, y = qs, group = NULL, color = "grey30", alpha = 0.2), size = 1, alpha = 0.2) + ## Workaround for the legend 
-  geom_line(data = df_ale_pred, aes(x = vals, y = qs, group = NULL, color = "black"), size = 0.6) + ## adds the cdf of the posterior predictive distribution
+  geom_line(data = df_ale, mapping = aes(group = grp, x=vals, y=qs), size =  0.4, color="grey", show.legend = FALSE) +
+  geom_line(data = df_ale %>% filter(grp == 1), aes(x = vals, y = qs, group = NULL, color = "grey"), size = 0.4, alpha = 0.2) + ## Workaround for the legend
+  geom_line(data = df_ale_pred, aes(x = vals, y = qs, group = NULL, color = "black"),size = 0.6) + ## adds the cdf of the posterior predictive distribution
   coord_cartesian(expand = FALSE) +
-  scale_colour_manual(name = '', values = c('grey30', 'black'),  labels = c('2D distribution', 'Predictive distribution')) +
-  xlim(5, 41) + 
-  ylim(0,1.05) + 
+  scale_colour_manual(name = 'nam', values = c("black","grey"),
+                      labels = c('Predictive distribution','2D distribution')) +
+  xlim(5, 41) +
+  ylim(0,1.05) +
   labs(
     title = "",
     x = "body weight",
-    y = "cdf"
-  ) + 
+    y = "cdf") +
   theme_bw() +
-  theme(title = element_text(size = 1), axis.title = element_text(size = 5), axis.text = element_text(size = 5), 
+  theme(title = element_text(size = 1), axis.title = element_text(size = 5), axis.text = element_text(size = 5),
         legend.title = element_text(size = -2),
         legend.text = element_text(size = 4),
         legend.justification =  'bottom', legend.position = c(0.73,0.05))
- 
 
 ## var_2d_postpred
 ggsave('var_2d_postpred_1.png', width = 2.25, height = 1.82, units = 'in')
