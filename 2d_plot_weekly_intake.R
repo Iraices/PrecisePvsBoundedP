@@ -66,16 +66,23 @@ quantify_uncertainty_pp_change_eke <- function(vals, probs){
 ################################################################################
 
 combine_uncertainty_mod <- function(gen_data_concentration, gen_data_consumption,
-                                gen_data_EKE, threshold, niter_ale){
+                                gen_data_EKE, threshold, niter_ale, sample = TRUE){
   
   gen_data_concentration <- matrix(unlist(gen_data_concentration), ncol = 7, nrow = niter_ale)
   gen_data_consumption <- matrix(unlist(gen_data_consumption), ncol = 7, nrow = niter_ale)
   
   weekly_intake <- rowSums((1 + (gen_data_EKE/ 100) )* (gen_data_consumption * 0.007) * gen_data_concentration)
   
+  p95_weekly_intake <- quantile(weekly_intake, probs = 0.95)
+    
   frequency_exceeding_wi <- mean(weekly_intake > threshold)
   
-  return(list(weekly_intake = weekly_intake, frequency_exceeding_wi = frequency_exceeding_wi))
+  if (sample){
+    return(list(weekly_intake = weekly_intake))
+  }
+  else{
+    return(list(p95_weekly_intake = p95_weekly_intake, frequency_exceeding_wi = frequency_exceeding_wi))
+  }
 }
 
 ################################################################################
@@ -83,22 +90,14 @@ combine_uncertainty_mod <- function(gen_data_concentration, gen_data_consumption
 vals <- c(-30, -15, -5, 7.5, 20)
 probs = c(0.01, 0.25,0.5, 0.75,0.99)
 fit_normal_dist_EKE <- quantify_uncertainty_pp_change_eke(vals, probs)
-#gen_data_EKE <- rnorm(1, fit_normal_dist_EKE[['mu_EKE']], fit_normal_dist_EKE[['sigma_EKE']])
-
 
 post_concentration <-  lapply(data_assessment$log_concentration_ss_data, update_normal_gamma, 
                               mu0 = 3.5, v0 = 5, alpha0 = 1, beta0 = 1, 
                               sufficient_statistics = TRUE)
 
-#gen_data_concentration <-  lapply(post_concentration, generate_samples_normal_gamma, niter_ale = 100)
-
-
-
 post_consumption <- lapply(data_assessment$log_consumption_ss_data, update_normal_gamma,
                            mu0 = -3, v0 = 5, alpha0 = 1, beta0 = 1, 
                            sufficient_statistics = TRUE)
-
-#gen_data_consumption_prime <-  lapply(post_consumption, generate_samples_normal_gamma, niter_ale = 100)
 
 param_consumption_event <-  lapply(data_assessment$consumers_info_sample_size, update_bernoulli_beta, alpha0 = 1, beta0 = 1)
 
@@ -107,7 +106,6 @@ prob_consumption_event <- vector('list', 7)
 ####################################################
 ## 2D distribution weekly intake
 
-exposure_scenario = 'Null' # 'av', 'perc_95'
 threshold = 1
 niter_ale = 5000
 niter_epi = 20
@@ -131,34 +129,14 @@ for(i in 1:niter_epi){
     
     gen_data_consumption[[k]]$gen_sample  <- gen_data_consumption_prime[[k]]$gen_sample * rbinom(n = niter_ale, size = 1, prob = prob_consumption_event[[k]])
     
-    
-    if(exposure_scenario == 'perc_95'){
-      gen_data_consumption[[k]]$gen_sample <- rep(quantile(gen_data_consumption[[k]]$gen_sample, probs = 0.95), niter_ale)
-      
-    }
-    else if(exposure_scenario == 'av'){
-     gen_data_consumption[[k]]$gen_sample <- rep(mean(gen_data_consumption[[k]]$gen_sample), niter_ale)
-    }
-    else{
-      gen_data_consumption[[k]]$gen_sample
-    }
   }
   
   a <- combine_uncertainty_mod(gen_data_concentration =  gen_data_concentration, gen_data_consumption = gen_data_consumption,
-                               gen_data_EKE = gen_data_EKE, threshold =  threshold, niter_ale = niter_ale)
+                               gen_data_EKE = gen_data_EKE, threshold =  threshold, niter_ale = niter_ale, sample = TRUE)
   
   weekly_intake[,i] <- a$weekly_intake
   
 }
-
-# plot 2D distribution for weekly intake (the data is for column)
-plot(sort(weekly_intake[,1]), (1:length(weekly_intake[,1]))/ length(weekly_intake[,1]), 
-     xlab = 'weekly_intake', ylab = 'cdf', xlim= c(0,1.2), type = 'l', col = 'lightgrey')
-for(i in 2:niter_epi){
-  lines(sort(weekly_intake[,i]), (1:length(weekly_intake[,1]))/ length(weekly_intake[,1]), col = 'lightgrey')
-}
-abline(h = 0.95, col = 'red')
-abline(v = 1, col = 'black')
 
 ############################################
 ## using ggplot
@@ -185,7 +163,7 @@ data_plot_long <- gather(data_plot, group, values,
 
 ggplot() +
   geom_line(data = data_plot_long, mapping = aes(group = group, x=values, y=pp), size =  0.4, color="grey", show.legend = FALSE) +
-  geom_hline(yintercept = 0.95, col = 'red', size = 0.4) + 
+  geom_hline(yintercept = 0.95, col = 'black', size = 0.4, linetype = 'dashed') + 
   geom_vline(xintercept = 1, col = 'black', size = 0.4) + 
   coord_cartesian(expand = FALSE) +
   xlim(0, 1.2) +
@@ -204,14 +182,48 @@ ggsave('2d_weekly_intake.png', width = 2.25, height = 2, units = 'in')
 
 
 #######################################################
-## histogram
+## Quantity of interest
 
-WI_95 <- unlist(lapply(1:ncol,function(i){quantile(data_plot[,i], probs = 0.95)}))
+threshold <- 1
+niter_ale <- 5000
+niter_epi <- 5000
+
+WI_95 <- rep(0, niter_epi)
+FE <- rep(0, niter_epi)
+
+for(i in 1:niter_epi){
+  
+  gen_data_EKE = rnorm(1, mean =  fit_normal_dist_EKE[[1]], sd =  fit_normal_dist_EKE[[2]])
+  
+  gen_data_concentration <-  lapply(post_concentration, generate_samples_normal_gamma, niter_ale = niter_ale)
+  
+  gen_data_consumption_prime <-  lapply(post_consumption, generate_samples_normal_gamma, niter_ale = niter_ale)
+  
+  gen_data_consumption <- gen_data_consumption_prime
+  
+  for(k in 1:7){
+    
+    prob_consumption_event[[k]] <-  rbeta(1,shape1 = param_consumption_event[[k]]$param$posterior$alpha,
+                                          shape2 = param_consumption_event[[k]]$param$posterior$beta)
+    
+    gen_data_consumption[[k]]$gen_sample  <- gen_data_consumption_prime[[k]]$gen_sample * rbinom(n = niter_ale, size = 1, prob = prob_consumption_event[[k]])
+    
+  }
+  
+  a <- combine_uncertainty_mod(gen_data_concentration =  gen_data_concentration, gen_data_consumption = gen_data_consumption,
+                               gen_data_EKE = gen_data_EKE, threshold =  threshold, niter_ale = niter_ale, sample = FALSE)
+  
+  WI_95[i] <- a$p95_weekly_intake
+  FE[i] <- a$frequency_exceeding_wi
+  
+}
+
+## histogram
 
 WI_95_plot <- data.frame(WI_95)
 
 ggplot(data = WI_95_plot, aes(x= WI_95)) + 
-  geom_histogram(bins = 5, col = 'grey', fill="lightgrey", size = 0.4) + 
+  geom_histogram(bins = 10, col = 'grey', fill="lightgrey", size = 0.4) + 
   labs(
     title = "",
     x = "95th weekly intake",
