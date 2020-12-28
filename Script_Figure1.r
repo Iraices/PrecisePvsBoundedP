@@ -50,7 +50,7 @@ sample_param <- function(data, sigma2, mu_0, sigma2_0){
 
 
 #Update the parameter (posterior distribution)
-ndraws <- 10 ## number of spaghetti straws
+ndraws <- 15 ## number of spaghetti straws
 sample_param_df <- map_dfr(seq(ndraws), 
                            ~sample_param(data = df$x,
                                          sigma2 = 10, mu_0 = 25, sigma2_0 = 5)) %>% 
@@ -99,7 +99,6 @@ ggplot() +
 
 ## var_2d_postpred
 ggsave('var_2d_postpred_1.png', width = 2.25, height = 1.82, units = 'in')
-
 
 ##############################################################################
 ######################

@@ -141,10 +141,13 @@ unc_analysis_assessment <- function(niter_ale, niter_epi, threshold, exposure_sc
 
       if(exposure_scenario == 'perc_95'){
         gen_data_consumption[[k]]$gen_sample <- rep(quantile(gen_data_consumption[[k]]$gen_sample, probs = 0.95), niter_ale)
-
+        
+      }
+      else if(exposure_scenario == 'av'){
+        gen_data_consumption[[k]]$gen_sample <- rep(mean(gen_data_consumption[[k]]$gen_sample), niter_ale)
       }
       else{
-        gen_data_consumption[[k]]$gen_sample <- rep(mean(gen_data_consumption[[k]]$gen_sample), niter_ale)
+        gen_data_consumption[[k]]$gen_sample
       }
     }
 
