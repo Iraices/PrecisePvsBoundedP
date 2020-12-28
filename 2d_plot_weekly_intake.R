@@ -219,6 +219,7 @@ WI_95_plot <- data.frame(WI_95)
 
 ggplot(data = WI_95_plot, aes(x= WI_95)) +
   geom_histogram(aes(y=..density..), bins = 10, col = 'grey', fill="lightgrey", size = 0.4) +
+  xlim(0, 1.2) +
   labs(
     title = "",
     x = "high exposure weekly intake",
