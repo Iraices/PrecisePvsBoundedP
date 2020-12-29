@@ -9,7 +9,6 @@
 #' @param niter_epi                     number of generated parameters from the posterior distrbutions
 #'                                      (it indicates the number of repetitions the assessment will be done)
 #' @param threshold                     safety threshold
-#' @param exposure_scenario             a value that indicates if the assessment is done an average consumption scenario by 'av' or on a high consumption scenario by 'perc_95'. Default is \code{NULL}
 #' @param suff_stat_concentration       a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 #'                                      corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
 #'                                      then it is vector of observed data
@@ -50,7 +49,7 @@
 #'
 #'
 unc_analysis_assessment_bp <- function(niter_ale, niter_epi,
-                                       threshold, exposure_scenario,
+                                       threshold,
                                        suff_stat_concentration, suff_stat_consumption,
                                        consumption_change_vals_EKE,
                                        consumption_change_probs_EKE,
@@ -103,14 +102,6 @@ unc_analysis_assessment_bp <- function(niter_ale, niter_epi,
 
       gen_data_consumption[[k]]$gen_sample  <- gen_data_consumption_prime[[k]]$gen_sample * rbinom(n = niter_ale, size = 1, prob = prob_consumption_event[[k]])
 
-
-      if(exposure_scenario == 'perc_95'){
-        gen_data_consumption[[k]]$gen_sample <- rep(quantile(gen_data_consumption[[k]]$gen_sample, probs = 0.95), niter_ale)
-
-      }
-      else{
-        gen_data_consumption[[k]]$gen_sample <- rep(mean(gen_data_consumption[[k]]$gen_sample), niter_ale)
-      }
     }
 
     frequency_exceeding[[i]] <- combine_uncertainty(gen_data_concentration =  gen_data_concentration, gen_data_consumption = gen_data_consumption,

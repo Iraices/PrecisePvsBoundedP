@@ -10,7 +10,6 @@
 #' @param niter_epi                           number of generated parameters from the posterior distrbutions
 #'                                            (it indicates the number of repetitions the assessment will be done)
 #' @param threshold                           safety threshold
-#' @param exposure_scenario                   a value that indicates if the assessment is done on an average consumption scenario by 'av' or on a high consumption scenario by 'perc_95'. Default is 'av'
 #' @param suff_stat_concentration             a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 #'                                            corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
 #'                                            then it is vector of observed data
@@ -42,7 +41,7 @@
 #'
 #' @export
 #'
-obj_func_bp <- function(parameters, niter_ale, niter_epi, threshold, exposure_scenario,
+obj_func_bp <- function(parameters, niter_ale, niter_epi, threshold,
                         suff_stat_concentration, suff_stat_consumption,
                         consumption_change_vals_EKE, consumption_change_probs_EKE ,
                         consumers_info_sample_size, concentration_v0,
@@ -58,7 +57,7 @@ obj_func_bp <- function(parameters, niter_ale, niter_epi, threshold, exposure_sc
 
 
   out <- unc_analysis_assessment_bp(niter_ale = niter_ale, niter_epi= niter_epi,
-                                    threshold = threshold, exposure_scenario = exposure_scenario,
+                                    threshold = threshold,
                                     suff_stat_concentration = suff_stat_concentration,
                                     suff_stat_consumption = suff_stat_consumption,
                                     consumption_change_vals_EKE = consumption_change_vals_EKE,

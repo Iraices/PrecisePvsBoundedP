@@ -27,6 +27,6 @@ graph_pp <- function(frequency_exceeding){
       x = "Frequency of exceeding TWI",
       y = "cdf") +
     theme_bw() +
-    theme(axis.title = element_text(size = 15), axis.text = element_text(size = 20))
+    theme(axis.title = element_text(size = 10), axis.text = element_text(size = 10))
 
 }

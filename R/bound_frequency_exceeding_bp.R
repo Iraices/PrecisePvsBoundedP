@@ -10,7 +10,6 @@
 #' @param niter_epi                            number of generated parameters from the posterior distrbutions
 #'                                             (it indicates the number of repetitions the assessment will be done)
 #' @param threshold                            safety threshold
-#' @param exposure_scenario                    a value that indicates if the assessment is done on average consumption scenario  by 'av' or on high consumption scenario by 'perc_95'. Default is 'av'
 #' @param suff_stat_concentration              a vector of sufficient statistics: sample_size, sample_mean and sample_sd
 #'                                             corresponding to concentration. If sufficient_statistics_concentration = \code{FALSE},
 #'                                             then it is vector of observed data
@@ -69,11 +68,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' lower_bound_average_consumption <-
+#' lower_bound <-
 #'   bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE,
 #'            lower_parameters  = c(1, -5, -20),
 #'            upper_parameters  = c(6, 1, -10),
-#'            niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'av',
+#'            niter_ale = 2000, niter_epi = 2000, threshold = 1,
 #'            suff_stat_concentration = data_assessment$log_concentration_ss_data,
 #'            suff_stat_consumption = data_assessment$log_consumption_ss_data,
 #'            consumption_change_vals_EKE = c(-15, 7.5),
@@ -87,11 +86,11 @@
 #'            sufficient_statistics_consumption = TRUE,
 #'            consumption_event_alpha0 = 1, consumption_event_beta0 = 1, percentile = NULL)
 #'
-#' upper_bound_average_consumption <-
+#' upper_bound <-
 #'  bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
 #'            lower_parameters  = c(1, -5, -20),
 #'            upper_parameters  = c(6, 1, -10),
-#'            niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'av',
+#'            niter_ale = 2000, niter_epi = 2000, threshold = 1,
 #'            suff_stat_concentration = data_assessment$log_concentration_ss_data,
 #'            suff_stat_consumption = data_assessment$log_consumption_ss_data,
 #'            consumption_change_vals_EKE = c(-15, 7.5),
@@ -111,7 +110,6 @@ bound_frequency_exceeding_bp  <- function(obj_func_bp, maximize = FALSE,
                                   lower_parameters  = c(1, -5, -20),
                                   upper_parameters  = c(6, 1, -10),
                                   niter_ale = 1000, niter_epi = 1000, threshold = 1,
-                                  exposure_scenario = 'av',
                                   suff_stat_concentration ,
                                   suff_stat_consumption,
                                   consumption_change_vals_EKE = c(-15, 7.5),
@@ -133,7 +131,6 @@ bound_frequency_exceeding_bp  <- function(obj_func_bp, maximize = FALSE,
   opt_value <- nmkb(par = initial_parameters, fn = obj_func_bp, lower = lower_parameters, upper = upper_parameters,
                     control = list(maximize =  maximize),
                     niter_ale = niter_ale, niter_epi = niter_epi, threshold = threshold,
-                    exposure_scenario = exposure_scenario,
                     suff_stat_concentration = suff_stat_concentration, suff_stat_consumption = suff_stat_consumption,
                     consumption_change_vals_EKE = consumption_change_vals_EKE[2],
                     consumption_change_probs_EKE = consumption_change_probs_EKE,
@@ -148,7 +145,7 @@ bound_frequency_exceeding_bp  <- function(obj_func_bp, maximize = FALSE,
 
   ## short cut
   out_freq <- unc_analysis_assessment_bp(niter_ale = niter_ale, niter_epi= niter_epi,
-                                         threshold = threshold, exposure_scenario  = exposure_scenario,
+                                         threshold = threshold,
                                          suff_stat_concentration = suff_stat_concentration,
                                          suff_stat_consumption = suff_stat_consumption,
                                          consumption_change_vals_EKE = c(opt_value$par[3],consumption_change_vals_EKE[2]),

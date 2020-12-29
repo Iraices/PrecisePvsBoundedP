@@ -181,7 +181,7 @@ ggsave('2d_weekly_intake.png', width = 2.25, height = 2, units = 'in')
 
 threshold <- 1
 niter_ale <- 5000
-niter_epi <- 5000
+niter_epi <- 200
 
 WI_95 <- rep(0, niter_epi)
 FE <- rep(0, niter_epi)
@@ -218,8 +218,8 @@ for(i in 1:niter_epi){
 WI_95_plot <- data.frame(WI_95)
 
 ggplot(data = WI_95_plot, aes(x= WI_95)) +
-  geom_histogram(aes(y=..density..), bins = 10, col = 'grey', fill="lightgrey", size = 0.4) +
-  xlim(0, 1.2) +
+  geom_histogram(aes(y=..density..), bins = 15, col = 'grey', fill="lightgrey", size = 0.4) +
+  xlim(0, 1.15) +
   labs(
     title = "",
     x = "high exposure weekly intake",
