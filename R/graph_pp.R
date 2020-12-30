@@ -17,16 +17,15 @@ graph_pp <- function(frequency_exceeding){
 
   frequency_exceeding_cdf <- c(1:length(frequency_exceeding))/(length(frequency_exceeding))
   data_plot <- data.frame(frequency_exceeding = sort(frequency_exceeding), frequency_exceeding_cdf = frequency_exceeding_cdf)
-
-  data_plot %>%
-    ggplot(mapping = aes(y = frequency_exceeding_cdf,  x = frequency_exceeding)) +
+  
+  ggplot(data = data_plot, aes(y = frequency_exceeding_cdf,  x = frequency_exceeding)) +
     geom_line() +
-    xlim(0,1) +
+    xlim(0,0.0025) +
     labs(
       title = "",
       x = "Frequency of exceeding TWI",
       y = "cdf") +
     theme_bw() +
-    theme(axis.title = element_text(size = 10), axis.text = element_text(size = 10))
+    theme(title = element_text(size = 1), axis.title = element_text(size = 5), axis.text = element_text(size = 5))
 
 }

@@ -47,17 +47,17 @@ graph_bp <- function(lower_points, upper_points){
     geom_line() +
     scale_color_manual(labels = c('Upper', 'Lower'), values = c('red', 'blue')) +
     guides(color = guide_legend("Bounds")) +
-    xlim(0,1) +
+    xlim(0,0.05) +
     labs(
       title = "",
       x = "Frequency of exceeding TWI",
       y = "cdf") +
     theme_bw() +
-    theme(title = element_text(size = 15),
-          axis.title = element_text(size = 20), axis.text = element_text(size = 20),
-          legend.title = element_text(size = 20),
-          legend.text = element_text(size = 20),
-          legend.position = c(0.9,0.12))
+    theme(title = element_text(size = 1),
+          axis.title = element_text(size = 5), axis.text = element_text(size = 5),
+          legend.title = element_text(size = 4),
+          legend.text = element_text(size = 4),
+          legend.position = c(0.75,0.3))
   p
 
 }

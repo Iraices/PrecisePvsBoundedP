@@ -107,7 +107,7 @@ prob_consumption_event <- vector('list', 7)
 ## 2D distribution weekly intake
 
 threshold = 1
-niter_ale = 5000
+niter_ale = 10000
 niter_epi = 20
 
 weekly_intake = matrix(0, nrow = niter_ale, ncol = niter_epi)
@@ -180,8 +180,8 @@ ggsave('2d_weekly_intake.png', width = 2.25, height = 2, units = 'in')
 ## Quantity of interest
 
 threshold <- 1
-niter_ale <- 5000
-niter_epi <- 200
+niter_ale <- 10000
+niter_epi <- 10000
 
 WI_95 <- rep(0, niter_epi)
 FE <- rep(0, niter_epi)
@@ -218,7 +218,7 @@ for(i in 1:niter_epi){
 WI_95_plot <- data.frame(WI_95)
 
 ggplot(data = WI_95_plot, aes(x= WI_95)) +
-  geom_histogram(aes(y=..density..), bins = 15, col = 'grey', fill="lightgrey", size = 0.4) +
+  geom_histogram(aes(y=..density..), bins = 20, col = 'grey', fill="lightgrey", size = 0.4) +
   xlim(0, 1.15) +
   labs(
     title = "",
