@@ -40,15 +40,15 @@ remotes::install_github('Iraices/PrecisePvsBoundedP')
 This example does the aluminium exposure assessment by precise
 probability derived by Bayesian analysis.
 
-First, let us estimate the frequency of exceeding the safety threshold
-for an average scenario
+Let us estimate the frequency of exceeding the safety threshold for a
+random child
 
 ``` r
 library(ppvsbp)
-## Average consumption scenario
-TWI_pp_average_consumption <-
-   unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000,
-             threshold = 1, exposure_scenario = 'av',
+## Random child
+TWI_pp <-
+   unc_analysis_assessment(niter_ale = 10000, niter_epi = 10000,
+             threshold = 1,
              suff_stat_concentration = data_assessment$log_concentration_ss_data,
              suff_stat_consumption = data_assessment$log_consumption_ss_data,
              consumption_change_vals_EKE = data_assessment$change_cons$vals,
@@ -64,48 +64,13 @@ TWI_pp_average_consumption <-
              consumption_event_beta0 = 1)
 
 ## Expected frequency of exceeding the safety threshold
-TWI_pp_average_consumption$expected_frequency_exceeding
-#> [1] 0.0009878
+TWI_pp$expected_frequency_exceeding
+#> [1] 0.00012114
 
 ## Highest posterior density interval of the frequency of exceeding the safety threshold
-TWI_pp_average_consumption$hdi_frequency_exceeding
-#>  lower  upper 
-#> 0.0000 0.0026 
-#> attr(,"credMass")
-#> [1] 0.95
-```
-
-Second, let us estimate the frequency of exceeding the safety threshold
-for a high consumption scenario. Note, the argument `exposure_scenario`
-has changed `exposure_scenario = 'perc_95'`.
-
-``` r
-## High consumption scenario
- TWI_pp_high_consumption <-
-   unc_analysis_assessment(niter_ale = 5000, niter_epi = 5000,
-              threshold = 1, exposure_scenario = 'perc_95',
-              suff_stat_concentration = data_assessment$log_concentration_ss_data,
-              suff_stat_consumption = data_assessment$log_consumption_ss_data,
-              consumption_change_vals_EKE = data_assessment$change_cons$vals,
-              consumption_change_probs_EKE = data_assessment$change_cons$probs/100,
-              consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-              concentration_mu0 = 3.5, concentration_v0 = 5,
-              concentration_alpha0 = 1, concentration_beta0 = 1,
-              sufficient_statistics_concentration = TRUE,
-              consumption_mu0 = -3, consumption_v0 = 5,
-              consumption_alpha0 = 1, consumption_beta0 = 1,
-              sufficient_statistics_consumption = TRUE,
-              consumption_event_alpha0 = 1,
-              consumption_event_beta0 = 1)
-
-## Expected probability of exceeding the safety threshold
-TWI_pp_high_consumption$expected_frequency_exceeding
-#> [1] 0.0682148
-
-## Highest posterior density interval of the probability of exceeding the safety threshold
-TWI_pp_high_consumption$hdi_frequency_exceeding
-#>  lower  upper 
-#> 0.0086 0.1388 
+TWI_pp$hdi_frequency_exceeding
+#> lower upper 
+#> 0e+00 4e-04 
 #> attr(,"credMass")
 #> [1] 0.95
 ```
@@ -114,40 +79,22 @@ We can now visualize the results. Epistemic uncertainty has been
 characterized by a full probability distribution.
 
 ``` r
- ## Average consumption scenario
-  graph_pp(frequency_exceeding = TWI_pp_average_consumption$frequency_exceeding)
+ ## Random child
+  graph_pp(frequency_exceeding = TWI_pp$frequency_exceeding)
 ```
 
 <img src="man/figures/README-fig1-1.png" width="70%" />
 
-``` r
-    
- ## High consumption scenario
-  graph_pp(frequency_exceeding = TWI_pp_high_consumption$frequency_exceeding)
-```
-
-<img src="man/figures/README-fig1-2.png" width="70%" />
-
-``` r
- ## both scenarios
- graph_pp_both(frequency_exceeding_average_consumption = TWI_pp_average_consumption$frequency_exceeding, 
-               frequency_exceeding_high_consumption = TWI_pp_high_consumption$frequency_exceeding)
-```
-
-<img src="man/figures/README-fig2-1.png" width="85%" />
-
 Now, let us estimate the frequency of exceeding the safety threshold by
 bounded probability derived by robust Bayesian analysis.
 
-First, let us consider the case of average consumption
-
 ``` r
-## Average consumption scenario
-lower_bound_average_consumption <-
+## Random child
+lower_bound <-
     bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE,
        lower_parameters  = c(1, -5, -20),
        upper_parameters  = c(6, 1, -10),
-       niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'av',
+       niter_ale = 5000, niter_epi = 5000, threshold = 1,
        suff_stat_concentration = data_assessment$log_concentration_ss_data,
        suff_stat_consumption = data_assessment$log_consumption_ss_data,
        consumption_change_vals_EKE = c(-15, 7.5),
@@ -162,12 +109,11 @@ lower_bound_average_consumption <-
        consumption_event_alpha0 = 1, consumption_event_beta0 = 1, percentile = NULL)
   
 
-## Average consumption scenario
-upper_bound_average_consumption <- 
+upper_bound <- 
    bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
        lower_parameters  = c(1, -5, -20),
        upper_parameters  = c(6, 1, -10),
-       niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'av',
+       niter_ale = 5000, niter_epi = 5000, threshold = 1,
        suff_stat_concentration = data_assessment$log_concentration_ss_data,
        suff_stat_consumption = data_assessment$log_consumption_ss_data,
        consumption_change_vals_EKE = c(-15, 7.5),
@@ -181,83 +127,15 @@ upper_bound_average_consumption <-
        sufficient_statistics_consumption = TRUE,
        consumption_event_alpha0 = 1, consumption_event_beta0 = 1, percentile = NULL)
   
-```
-
-Now, let us consider the case of high consumption
-
-``` r
-  ## High consumption scenario
-  lower_bound_high_consumption <- 
-    bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = FALSE,
-       lower_parameters  = c(1, -5, -20),
-       upper_parameters  = c(6, 1, -10),
-       niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'perc_95',
-       suff_stat_concentration = data_assessment$log_concentration_ss_data,
-       suff_stat_consumption = data_assessment$log_consumption_ss_data,
-       consumption_change_vals_EKE = c(-15, 7.5),
-       consumption_change_probs_EKE = c(0.25, 0.75),
-       consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-       concentration_mu0 = 2.75,
-       concentration_v0 = 5, concentration_alpha0 = 1, concentration_beta0 = 1,
-       sufficient_statistics_concentration = TRUE,
-       consumption_mu0 = -2.5,
-       consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1,
-       sufficient_statistics_consumption = TRUE,
-       consumption_event_alpha0 = 1, consumption_event_beta0 = 1, percentile = NULL)
-  
-  
-  
-## High consumption scenario 
-upper_bound_high_consumption <- 
-    bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
-       lower_parameters  = c(1, -5, -20),
-       upper_parameters  = c(6, 1, -10),
-       niter_ale = 2000, niter_epi = 2000, threshold = 1, exposure_scenario = 'perc_95',
-       suff_stat_concentration = data_assessment$log_concentration_ss_data,
-       suff_stat_consumption = data_assessment$log_consumption_ss_data,
-       consumption_change_vals_EKE = c(-15, 7.5),
-       consumption_change_probs_EKE = c(0.25, 0.75),
-       consumers_info_sample_size = data_assessment$consumers_info_sample_size,
-       concentration_mu0 = 2.75,
-       concentration_v0 = 5, concentration_alpha0 = 1, concentration_beta0 = 1,
-       sufficient_statistics_concentration = TRUE,
-       consumption_mu0 = -2.5,
-       consumption_v0 = 5, consumption_alpha0 = 1, consumption_beta0 = 1,
-       sufficient_statistics_consumption = TRUE,
-       consumption_event_alpha0 = 1, consumption_event_beta0 = 1, percentile = NULL)
 ```
 
 In the case of bounded probability derived by robust Bayesian analysis,
-epistemic uncertainty has been characterized by a probabilty box. The
-results of both cases can be visualized individualy or together.
-
-Individual cases (average consumption and high consumption)
+epistemic uncertainty has been characterized by a probability box.
 
 ``` r
- ## Average consumption scenario
-graph_bp(lower_points = lower_bound_average_consumption$opt_freq$frequency_exceeding, 
-         upper_points = upper_bound_average_consumption$opt_freq$frequency_exceeding)
+ ## Random child
+graph_bp(lower_points = lower_bound$opt_freq$frequency_exceeding, 
+         upper_points = upper_bound$opt_freq$frequency_exceeding)
 ```
 
 <img src="man/figures/README-fig3-1.png" width="70%" />
-
-``` r
-    
- ## High consumption scenario 
-graph_bp(lower_points = lower_bound_high_consumption$opt_freq$frequency_exceeding, 
-         upper_points = upper_bound_high_consumption$opt_freq$frequency_exceeding)
-```
-
-<img src="man/figures/README-fig3-2.png" width="70%" />
-
-Both cases together (average consumption and high consumption)
-
-``` r
- ## Both scenarios
-graph_bp_both(lower_points_average_consumption =                lower_bound_average_consumption$opt_freq$frequency_exceeding, 
-             upper_points_average_consumption = upper_bound_average_consumption$opt_freq$frequency_exceeding,
-              lower_points_high_consumption = lower_bound_high_consumption$opt_freq$frequency_exceeding,                      upper_points_high_consumption = 
-                upper_bound_high_consumption$opt_freq$frequency_exceeding)
-```
-
-<img src="man/figures/README-fig4-1.png" width="70%" />

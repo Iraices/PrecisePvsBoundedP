@@ -219,6 +219,7 @@ WI_95_plot <- data.frame(WI_95)
 
 ggplot(data = WI_95_plot, aes(x= WI_95)) +
   geom_histogram(aes(y=..density..), bins = 20, col = 'grey', fill="lightgrey", size = 0.4) +
+  geom_vline(xintercept = 1, col = 'black', size = 0.4) +
   xlim(0, 1.15) +
   labs(
     title = "",

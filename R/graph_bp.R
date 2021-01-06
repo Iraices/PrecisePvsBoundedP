@@ -45,6 +45,7 @@ graph_bp <- function(lower_points, upper_points){
   p <- data_plot %>%
     ggplot(aes(x = .data$values, y = .data$cdf, group = .data$bound, col = .data$bound)) +
     geom_line() +
+    geom_hline(yintercept = 0.98, col = 'black', size = 0.4, linetype = 'dashed') +
     scale_color_manual(labels = c('Upper', 'Lower'), values = c('red', 'blue')) +
     guides(color = guide_legend("Bounds")) +
     xlim(0,0.05) +

@@ -79,11 +79,11 @@ df_ale_pred <- sample_param_df_2  %>%
 
 ## Plot 2D distribution and posterior predictive distribution
 ggplot() +
-  geom_line(data = df_ale, mapping = aes(group = grp, x=vals, y=qs), size =  0.4, color="grey", show.legend = FALSE) +
-  geom_line(data = df_ale %>% filter(grp == 1), aes(x = vals, y = qs, group = NULL, color = "grey"), size = 0.4, alpha = 0.2) + ## Workaround for the legend
+  geom_line(data = df_ale, mapping = aes(group = grp, x=vals, y=qs), size =  0.4, color="lightgray", show.legend = FALSE) +
+  geom_line(data = df_ale %>% filter(grp == 1), aes(x = vals, y = qs, group = NULL, color = "lightgray"), size = 0.4, alpha = 0.2) + ## Workaround for the legend
   geom_line(data = df_ale_pred, aes(x = vals, y = qs, group = NULL, color = "black"),size = 0.6) + ## adds the cdf of the posterior predictive distribution
   coord_cartesian(expand = FALSE) +
-  scale_colour_manual(name = 'nam', values = c("black","grey"),
+  scale_colour_manual(name = 'nam', values = c("black","lightgray"),
                       labels = c('Predictive distribution','2D distribution')) +
   xlim(5, 41) +
   ylim(0,1.05) +
@@ -95,7 +95,7 @@ ggplot() +
   theme(title = element_text(size = 1), axis.title = element_text(size = 5), axis.text = element_text(size = 5),
         legend.title = element_text(size = -2),
         legend.text = element_text(size = 4),
-        legend.justification =  'bottom', legend.position = c(0.73,0.05))
+        legend.justification =  'bottom', legend.position = c(0.74,0.05))
 
 ## var_2d_postpred
 ggsave('var_2d_postpred_1.png', width = 2.25, height = 1.82, units = 'in')
@@ -156,7 +156,6 @@ graph_prior_posterior_mu(mu_0_vals =  df_epi_prior_mu_0$vals,
                                                mu_n_vals =  df_epi_posterior_mu_n$vals, qs = df_epi_prior_mu_0$qs)
 
 ## param_2d_postpred
-##ggsave('param_2d_postpred.png', width = 20, height = 20, units = 'cm')
 ggsave('param_2d_postpred_1.png', width = 2.25, height = 1.82, units = 'in')
 
 ##################################################################################
@@ -230,7 +229,6 @@ pbox_plot <- graph_bp(lower_points = df_ale_3_mu0_1$vals, upper_points = df_ale_
 pbox_plot
 
 ## var_pbox
-#png("var_pbox.png", width = 20, res = 300, height = 20, units = 'cm')
 png("var_pbox_1.png", width = 2.25, res = 300, height = 1.82, units = 'in')
 pbox_plot
 dev.off()
@@ -260,7 +258,6 @@ pp + theme_bw() + theme(title = element_text(size = 1), axis.title = element_tex
                         legend.justification =  'bottom', legend.position = c(0.80,0.1))
 
 ## param_pbox
-# ggsave('param_pbox.png', width = 20, height = 20, units = 'cm')
 ggsave('param_pbox_1.png', width = 2.25, height = 1.82, units = 'in')
 
 #######################################################################################
@@ -399,7 +396,6 @@ plot_rba_mu <- graph_bp_both(lower_points_mu_0 = df_epi_mu_01$vals,
 plot_rba_mu 
 
 ## param_rba
-##png("param_rba.png", width = 20, res = 300, height = 20, units = 'cm')
 png("param_rba_1.png", width = 2.25, res = 300, height = 1.82, units = 'in')
 plot_rba_mu 
 dev.off()
@@ -440,9 +436,9 @@ df_ale_mu_02 <- sample_param_df_mu_02 %>%
 # plot 2d distribution for mu_01 and mu_02
 p_cdf_mu_02 <- df_ale_mu_02%>% 
   ggplot(aes(group=grp, x=vals, y=qs)) +
-  geom_line(size=0.5, alpha=0.5, color="lightblue")+
+  geom_line(size=0.5, alpha=0.1, color="blue")+
   geom_line(data = df_ale_mu_01, aes(group=grp, x=vals, y=qs),
-            size=1, alpha=0.2, color="lightpink") +
+            size=0.5, alpha=0.1, color="red") +
   coord_cartesian(expand = FALSE) +
   xlim(5, 41) +
   ylim(0,1.05) + 
@@ -456,5 +452,4 @@ p_cdf_mu_02 <- df_ale_mu_02%>%
 p_cdf_mu_02 
 
 ## variable rba
-## ggsave('var_rba.png', width = 20, height = 20, units = 'cm')
 ggsave('var_rba_1.png', width = 2.25, height = 1.82, units = 'in')

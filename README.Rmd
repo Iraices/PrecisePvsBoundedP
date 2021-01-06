@@ -98,7 +98,6 @@ lower_bound <-
        consumption_event_alpha0 = 1, consumption_event_beta0 = 1, percentile = NULL)
   
 
-## Average consumption scenario
 upper_bound <- 
    bound_frequency_exceeding_bp(obj_func_bp = obj_func_bp, maximize = TRUE,
        lower_parameters  = c(1, -5, -20),

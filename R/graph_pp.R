@@ -20,6 +20,7 @@ graph_pp <- function(frequency_exceeding){
   
   ggplot(data = data_plot, aes(y = frequency_exceeding_cdf,  x = frequency_exceeding)) +
     geom_line() +
+    geom_hline(yintercept = 0.98, col = 'black', size = 0.4, linetype = 'dashed') +
     xlim(0,0.0025) +
     labs(
       title = "",
