@@ -35,7 +35,7 @@ graph_bp <- function(lower_points, upper_points){
                               u_points = c(min(data_plot_wide$l_points),max(data_plot_wide$u_points)),
                               cdf=c(0,1))
 
-  data_plot <- rbind(data_plot_wide, app_data_plot)
+  data_plot <- rbind(app_data_plot, data_plot_wide)
 
 
   # data long format
