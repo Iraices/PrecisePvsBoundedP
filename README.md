@@ -65,7 +65,7 @@ TWI_pp <-
 
 ## Expected frequency of exceeding the safety threshold
 TWI_pp$expected_frequency_exceeding
-#> [1] 0.00012114
+#> [1] 0.00012079
 
 ## Highest posterior density interval of the frequency of exceeding the safety threshold
 TWI_pp$hdi_frequency_exceeding
